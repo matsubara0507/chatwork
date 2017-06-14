@@ -5,9 +5,11 @@ module ChatWork.Types
     , GetMeResponse(..)
     , GetMyStatusResponse(..)
     , GetMyTasksResponse(..)
+    , GetContactsResponse
     , Task(..)
     , Room(..)
     , Account(..)
+    , Contact(..)
     ) where
 
 import Data.Aeson
@@ -97,6 +99,23 @@ instance ToJSON Account where
 instance FromJSON Account where
   parseJSON = genericParseJSON $ aesonDrop (strLength "accountTo") snakeCase
 
+type GetContactsResponse = [Contact]
+
+data Contact = Contact
+             { contactToAccountId :: Int
+             , contactToRoomId :: Int
+             , contactToName :: Text
+             , contactToChatworkId :: Text
+             , contactToOrganizationId :: Int
+             , contactToOrganizationName :: Text
+             , contactToDepartment :: Text
+             , contactToAvatarImageUrl :: Text
+             } deriving (Show, Generic)
+
+instance ToJSON Contact where
+  toJSON = genericToJSON $ aesonDrop (strLength "contactTo") snakeCase
+instance FromJSON Contact where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "contactTo") snakeCase
 
 strLength :: String -> Int
 strLength = length

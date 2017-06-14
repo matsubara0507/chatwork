@@ -18,6 +18,7 @@ library
                      , ChatWork.Endpoints
                      , ChatWork.Endpoints.Me
                      , ChatWork.Endpoints.My
+                     , ChatWork.Endpoints.Contacts
                      , ChatWork.MonadHttpIO
                      , ChatWork.Types
   build-depends:       base >= 4.7 && < 5
