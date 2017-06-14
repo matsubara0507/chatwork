@@ -17,6 +17,7 @@ library
   exposed-modules:     ChatWork
                      , ChatWork.Endpoints
                      , ChatWork.Endpoints.Me
+                     , ChatWork.Endpoints.My
                      , ChatWork.MonadHttpIO
                      , ChatWork.Types
   build-depends:       base >= 4.7 && < 5
