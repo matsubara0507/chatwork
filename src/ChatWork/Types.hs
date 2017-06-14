@@ -4,7 +4,7 @@ module ChatWork.Types
     ( Token
     , GetMeResponse(..)
     , GetMyStatusResponse(..)
-    , GetMyTasksResponse(..)
+    , GetMyTasksResponse
     , GetContactsResponse
     , Task(..)
     , Room(..)
