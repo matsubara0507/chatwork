@@ -7,12 +7,13 @@ module ChatWork.Endpoints.Rooms
     ) where
 
 import Data.Monoid ((<>))
-import ChatWork.Endpoints
-import ChatWork.Types
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
                         , GET(..), POST(..)
                         , (/:), (/~), (=:), jsonResponse)
+import ChatWork.Endpoints (baseUrl, mkTokenHeader)
 import ChatWork.Internal (req)
+import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
+                      , GetRoomResponse, CreateRoomParams(..))
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
