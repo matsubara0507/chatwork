@@ -1,5 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module ChatWork.Endpoints
     ( baseUrl
@@ -7,6 +8,7 @@ module ChatWork.Endpoints
     , getHttpResponse'
     , fixEmptyStringManager
     , fixEmptyString
+    , DELETE2(..)
     ) where
 
 import Data.Default.Class (def)
@@ -20,7 +22,9 @@ import Network.HTTP.Client ( Request, Manager, Response(..), BodyReader
 import Network.HTTP.Client.Internal (constBodyReader)
 import Network.HTTP.Client.TLS (mkManagerSettingsContext)
 import Network.HTTP.Req ( HttpResponse(..), Url, Scheme(Https), Option
-                        , https, (/:), header, MonadHttp)
+                        , https, (/:), header, MonadHttp
+                        , HttpMethod(..), AllowsBody(..), CanHaveBody(..))
+import Network.HTTP.Types (methodDelete)
 import Network.HTTP.Types.Header (hContentLength)
 import ChatWork.Types
 
@@ -45,3 +49,9 @@ fixEmptyString res = do
   let
     contentLength = fromMaybe "0" $ lookup hContentLength (responseHeaders res)
   return $ if contentLength /= "0" then res else res { responseBody = reader }
+
+data DELETE2 = DELETE2
+
+instance HttpMethod DELETE2 where
+  type AllowsBody DELETE2 = 'CanHaveBody
+  httpMethodName Proxy = methodDelete

@@ -7,17 +7,21 @@ module ChatWork.Types
     , GetMyTasksResponse
     , GetContactsResponse
     , GetRoomsResponse
-    , PostRoomResponse(..)
+    , PostRoomResponse
     , GetRoomResponse
+    , PutRoomResponse
     , GetIncomingRequestsResponse
     , PutIncomingRequestsResponse(..)
     , CreateRoomParams(..)
+    , UpdateRoomParams(..)
+    , DeleteRoomActionType(..)
     , IconPreset(..)
     , Task(..)
     , Room(..)
     , Account(..)
     , Contact(..)
     , IncomingRequest(..)
+    , RoomIdWrap(..)
     , ToReqParam(..)
     ) where
 
@@ -190,12 +194,30 @@ instance Show IconPreset where
   show Sports = "sports"
   show Travel = "travel"
 
-data PostRoomResponse = PostRoomResponse { postRoomToRoomId :: Int } deriving (Show, Generic)
+newtype RoomIdWrap = RoomIdWrap { getRoomId :: Int } deriving (Show, Generic)
 
-instance ToJSON PostRoomResponse where
-  toJSON = genericToJSON $ aesonDrop (strLength "postRoomTo") snakeCase
-instance FromJSON PostRoomResponse where
-  parseJSON = genericParseJSON $ aesonDrop (strLength "postRoomTo") snakeCase
+instance ToJSON RoomIdWrap where
+  toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
+instance FromJSON RoomIdWrap where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
+
+type PostRoomResponse = RoomIdWrap
+
+type PutRoomResponse = RoomIdWrap
+
+data UpdateRoomParams = UpdateRoomParams
+                      { uRoomDescription :: Maybe Text
+                      , uIconPreset :: Maybe IconPreset
+                      , uRoomName :: Maybe Text
+                      } deriving (Show)
+
+data DeleteRoomActionType = LeaveRoom
+                          | DeleteRoom
+                          deriving (Eq)
+
+instance Show DeleteRoomActionType where
+  show LeaveRoom = "leave"
+  show DeleteRoom = "delete"
 
 type GetIncomingRequestsResponse = [IncomingRequest]
 

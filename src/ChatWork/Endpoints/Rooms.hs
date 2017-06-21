@@ -4,16 +4,19 @@ module ChatWork.Endpoints.Rooms
     ( getRooms
     , postRoom
     , getRoom
+    , putRoom
+    , deleteRoom
     ) where
 
 import Data.Monoid ((<>))
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
-                        , GET(..), POST(..)
-                        , (/:), (/~), (=:), jsonResponse)
-import ChatWork.Endpoints (baseUrl, mkTokenHeader)
+                        , IgnoreResponse, GET(..), POST(..), PUT(..), DELETE(..)
+                        , (/:), (/~), (=:), jsonResponse, ignoreResponse)
+import ChatWork.Endpoints (baseUrl, mkTokenHeader, DELETE2(..))
 import ChatWork.Internal (req)
 import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
-                      , GetRoomResponse, CreateRoomParams(..), ToReqParam(..))
+                      , GetRoomResponse, CreateRoomParams(..), ToReqParam(..)
+                      , UpdateRoomParams(..), PutRoomResponse, DeleteRoomActionType)
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
@@ -30,3 +33,15 @@ postRoom t params = req POST (baseUrl /: "rooms") (ReqBodyUrlEnc params') jsonRe
 
 getRoom :: (MonadHttp m) => Token -> Int -> m (JsonResponse GetRoomResponse)
 getRoom t n = req GET (baseUrl /: "rooms" /~ n) NoReqBody jsonResponse $ mkTokenHeader t
+
+putRoom :: (MonadHttp m) => Token -> Int -> UpdateRoomParams -> m (JsonResponse PutRoomResponse)
+putRoom t n params = req PUT (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
+  where
+    params' = toReqParam "description" (uRoomDescription params)
+           <> toReqParam "icon_preset" (uIconPreset params)
+           <> toReqParam "name" (uRoomName params)
+
+deleteRoom :: (MonadHttp m) => Token -> Int -> DeleteRoomActionType -> m IgnoreResponse
+deleteRoom t n action = req DELETE2 (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') ignoreResponse $ mkTokenHeader t
+  where
+    params' = "action_type" =: show action
