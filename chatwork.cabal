@@ -19,6 +19,7 @@ library
                      , ChatWork.Endpoints.Me
                      , ChatWork.Endpoints.My
                      , ChatWork.Endpoints.Contacts
+                     , ChatWork.Endpoints.Rooms
                      , ChatWork.Endpoints.IncomingRequests
                      , ChatWork.MonadHttpIO
                      , ChatWork.Types

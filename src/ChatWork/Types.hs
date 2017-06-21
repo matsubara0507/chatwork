@@ -6,8 +6,13 @@ module ChatWork.Types
     , GetMyStatusResponse(..)
     , GetMyTasksResponse
     , GetContactsResponse
+    , GetRoomsResponse
+    , PostRoomResponse(..)
+    , GetRoomResponse
     , GetIncomingRequestsResponse
     , PutIncomingRequestsResponse(..)
+    , CreateRoomParams(..)
+    , IconPreset(..)
     , Task(..)
     , Room(..)
     , Account(..)
@@ -84,7 +89,18 @@ instance FromJSON Task where
 data Room = Room
           { roomToRoomId :: Int
           , roomToName :: Text
+          , roomToType :: Maybe Text
+          , roomToRool :: Maybe Text
+          , roomToSticky :: Maybe Bool
+          , roomToUnreadNum :: Maybe Int
+          , roomToMentionNum :: Maybe Int
+          , roomToMytaskNum :: Maybe Int
+          , roomToMessageNum :: Maybe Int
+          , roomToFileNum :: Maybe Int
+          , roomToTaskNum :: Maybe Int
           , roomToIconPath :: Text
+          , roomToLastUpdateTime :: Maybe Int
+          , roomToDescription :: Maybe Text
           } deriving (Show, Generic)
 
 instance ToJSON Room where
@@ -120,6 +136,64 @@ instance ToJSON Contact where
   toJSON = genericToJSON $ aesonDrop (strLength "contactTo") snakeCase
 instance FromJSON Contact where
   parseJSON = genericParseJSON $ aesonDrop (strLength "contactTo") snakeCase
+
+type GetRoomsResponse = [Room]
+
+type GetRoomResponse = Room
+
+data CreateRoomParams = CreateRoomParams
+                      { cRoomDescription :: Maybe Text
+                      , cIconPreset :: Maybe IconPreset
+                      , cMembersAdminIds :: [Int]
+                      , cMembersMemberIds :: Maybe [Int]
+                      , cMembersReadonlyIds :: Maybe [Int]
+                      , cRoomName :: Text
+                      } deriving (Show)
+
+data IconPreset = Group
+                | Check
+                | Document
+                | Meeting
+                | Event
+                | Project
+                | Business
+                | Study
+                | Security
+                | Star
+                | Idea
+                | Heart
+                | Magcup
+                | Beer
+                | Music
+                | Sports
+                | Travel
+                deriving (Eq)
+
+instance Show IconPreset where
+  show Group = "group"
+  show Check = "check"
+  show Document = "document"
+  show Meeting = "meeting"
+  show Event = "event"
+  show Project = "project"
+  show Business = "business"
+  show Study = "study"
+  show Security = "security"
+  show Star = "star"
+  show Idea = "idea"
+  show Heart = "heart"
+  show Magcup = "magcup"
+  show Beer = "beer"
+  show Music = "music"
+  show Sports = "sports"
+  show Travel = "travel"
+
+data PostRoomResponse = PostRoomResponse { postRoomToRoomId :: Int } deriving (Show, Generic)
+
+instance ToJSON PostRoomResponse where
+  toJSON = genericToJSON $ aesonDrop (strLength "postRoomTo") snakeCase
+instance FromJSON PostRoomResponse where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "postRoomTo") snakeCase
 
 type GetIncomingRequestsResponse = [IncomingRequest]
 
