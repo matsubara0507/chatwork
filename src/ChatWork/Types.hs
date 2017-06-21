@@ -6,13 +6,17 @@ module ChatWork.Types
     , GetMyStatusResponse(..)
     , GetMyTasksResponse
     , GetContactsResponse
+    , GetIncomingRequestsResponse
+    , PutIncomingRequestsResponse(..)
     , Task(..)
     , Room(..)
     , Account(..)
     , Contact(..)
+    , IncomingRequest(..)
     ) where
 
 import Data.Aeson
+import Data.Aeson.Types
 import Data.Aeson.Casing
 import Data.Text (Text)
 import Data.ByteString (ByteString)
@@ -116,6 +120,41 @@ instance ToJSON Contact where
   toJSON = genericToJSON $ aesonDrop (strLength "contactTo") snakeCase
 instance FromJSON Contact where
   parseJSON = genericParseJSON $ aesonDrop (strLength "contactTo") snakeCase
+
+type GetIncomingRequestsResponse = [IncomingRequest]
+
+data IncomingRequest = IncomingRequest
+                     { incomingRequestToRequestId :: Int
+                     , incomingRequestToAccountId :: Int
+                     , incomingRequestToMessage :: Text
+                     , incomingRequestToName :: Text
+                     , incomingRequestToChatworkId :: Text
+                     , incomingRequestToOrganizationId :: Int
+                     , incomingRequestToOrganizationName :: Text
+                     , incomingRequestToDepartment :: Text
+                     , incomingRequestToAvatarImageUrl :: Text
+                     } deriving (Show, Generic)
+
+instance ToJSON IncomingRequest where
+  toJSON = genericToJSON $ aesonDrop (strLength "incomingRequestTo") snakeCase
+instance FromJSON IncomingRequest where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "incomingRequestTo") snakeCase
+
+data PutIncomingRequestsResponse = IncomingRequestsResponse
+                                 { acceptIncomingRequestAccountId :: Int
+                                 , acceptIncomingRequestRoomId :: Int
+                                 , acceptIncomingRequestName :: Text
+                                 , acceptIncomingRequestChatworkId :: Text
+                                 , acceptIncomingRequestOrganizationId :: Int
+                                 , acceptIncomingRequestOrganizationName :: Text
+                                 , acceptIncomingRequestDepartment :: Text
+                                 , acceptIncomingRequestAvatarImageUrl :: Text
+                                 } deriving (Show, Generic)
+
+instance ToJSON PutIncomingRequestsResponse where
+  toJSON = genericToJSON $ aesonDrop (strLength "acceptIncomingRequest") snakeCase
+instance FromJSON PutIncomingRequestsResponse where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "acceptIncomingRequest") snakeCase
 
 strLength :: String -> Int
 strLength = length
