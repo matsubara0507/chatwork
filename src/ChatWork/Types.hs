@@ -18,14 +18,16 @@ module ChatWork.Types
     , Account(..)
     , Contact(..)
     , IncomingRequest(..)
+    , ToReqParam(..)
     ) where
 
 import Data.Aeson
 import Data.Aeson.Types
 import Data.Aeson.Casing
-import Data.Text (Text)
+import Data.Text (Text, pack)
 import Data.ByteString (ByteString)
 import GHC.Generics
+import Network.HTTP.Req (FormUrlEncodedParam, (=:))
 
 type Token = ByteString
 
@@ -232,3 +234,21 @@ instance FromJSON PutIncomingRequestsResponse where
 
 strLength :: String -> Int
 strLength = length
+
+class ToReqParam a where
+  toReqParam :: Text -> a -> FormUrlEncodedParam
+
+instance ToReqParam Int where
+  toReqParam = (=:)
+
+instance ToReqParam Text where
+  toReqParam = (=:)
+
+instance ToReqParam a => ToReqParam (Maybe a) where
+  toReqParam = maybe mempty . toReqParam
+
+instance Show a => ToReqParam [a] where
+  toReqParam name = toReqParam name . pack . (show =<<)
+
+instance ToReqParam IconPreset where
+  toReqParam name = toReqParam name . pack . show
