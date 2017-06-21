@@ -6,7 +6,8 @@ module ChatWork.Endpoints
     , mkTokenHeader
     ) where
 
-import Network.HTTP.Req
+import Network.HTTP.Req ( HttpResponse(..), Url, Scheme(Https), Option
+                        , https, (/:), header)
 import ChatWork.Types
 
 baseUrl :: Url 'Https
