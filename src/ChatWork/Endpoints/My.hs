@@ -5,12 +5,14 @@ module ChatWork.Endpoints.My
     , getMyTasks
     ) where
 
-import Network.HTTP.Req
 import ChatWork.Endpoints
 import ChatWork.Types
+import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), GET(..)
+                        , (/:), jsonResponse)
+import ChatWork.Internal (req)
 
 getMyStatus :: (MonadHttp m) => Token -> m (JsonResponse GetMyStatusResponse)
-getMyStatus = flip (req' GET (baseUrl /: "my" /: "status") NoReqBody) (getHttpResponse' jsonResponse) . mkTokenHeader
+getMyStatus = req GET (baseUrl /: "my" /: "status") NoReqBody jsonResponse . mkTokenHeader
 
 getMyTasks :: (MonadHttp m) => Token -> m (JsonResponse GetMyTasksResponse)
-getMyTasks = flip (req' GET (baseUrl /: "my" /: "tasks") NoReqBody) (getHttpResponse' jsonResponse) . mkTokenHeader
+getMyTasks = req GET (baseUrl /: "my" /: "tasks") NoReqBody jsonResponse . mkTokenHeader

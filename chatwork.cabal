@@ -23,6 +23,7 @@ library
                      , ChatWork.Endpoints.IncomingRequests
                      , ChatWork.MonadHttpIO
                      , ChatWork.Types
+  other-modules:       ChatWork.Internal
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , aeson-casing

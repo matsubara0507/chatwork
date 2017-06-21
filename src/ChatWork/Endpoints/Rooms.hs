@@ -7,15 +7,18 @@ module ChatWork.Endpoints.Rooms
     ) where
 
 import Data.Monoid ((<>))
-import Network.HTTP.Req
 import ChatWork.Endpoints
 import ChatWork.Types
+import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
+                        , GET(..), POST(..)
+                        , (/:), (/~), (=:), jsonResponse)
+import ChatWork.Internal (req)
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
-getRooms = flip (req' GET (baseUrl /: "rooms") NoReqBody) (getHttpResponse' jsonResponse) . mkTokenHeader
+getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
 
 postRoom :: (MonadHttp m) => Token -> CreateRoomParams -> m (JsonResponse PostRoomResponse)
-postRoom t params = flip (req' POST (baseUrl /: "rooms") (ReqBodyUrlEnc params')) (getHttpResponse' jsonResponse) $ mkTokenHeader t
+postRoom t params = req POST (baseUrl /: "rooms") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
     params' = maybe mempty ("description" =:) (cRoomDescription params)
            <> maybe mempty ("icon_preset" =:) (show <$> cIconPreset params)
@@ -25,4 +28,4 @@ postRoom t params = flip (req' POST (baseUrl /: "rooms") (ReqBodyUrlEnc params')
            <> "name" =: (cRoomName params)
 
 getRoom :: (MonadHttp m) => Token -> Int -> m (JsonResponse GetRoomResponse)
-getRoom t n = flip (req' GET (baseUrl /: "rooms" /~ n) NoReqBody) (getHttpResponse' jsonResponse) $ mkTokenHeader t
+getRoom t n = req GET (baseUrl /: "rooms" /~ n) NoReqBody jsonResponse $ mkTokenHeader t
