@@ -8,9 +8,14 @@ module ChatWork.Endpoints.Rooms
     , deleteRoom
     , getRoomMembers
     , putRoomMembers
+    , getRoomMessages
+    , postRoomMessage
+    , getRoomMessage
     ) where
 
+import Data.Bool (bool)
 import Data.Monoid ((<>))
+import Data.Text (Text)
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
                         , IgnoreResponse, GET(..), POST(..), PUT(..), DELETE(..)
                         , (/:), (/~), (=:), jsonResponse, ignoreResponse)
@@ -19,7 +24,9 @@ import ChatWork.Internal (req)
 import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
                       , GetRoomResponse, CreateRoomParams(..), ToReqParam(..)
                       , UpdateRoomParams(..), PutRoomResponse, DeleteRoomActionType
-                      , GetRoomMembersResponse, PutRoomMembersResponse, RoomMembersParams(..))
+                      , GetRoomMembersResponse, PutRoomMembersResponse, RoomMembersParams(..)
+                      , GetRoomMessagesResponse, PostRoomMessageResponse, GetRoomMessageResponse
+                      , Force, MessageBody)
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
@@ -58,3 +65,16 @@ putRoomMembers t n params = req PUT (baseUrl /: "rooms" /~ n /: "members") (ReqB
     params' = toReqParam "members_admin_ids" (getAdminIds params)
            <> toReqParam "members_member_ids" (getMemberIds params)
            <> toReqParam "members_readonly_ids" (getReadonlyIds params)
+
+getRoomMessages :: (MonadHttp m) => Token -> Int -> Maybe Force -> m (JsonResponse GetRoomMessagesResponse)
+getRoomMessages t n force = req GET (baseUrl /: "rooms" /~ n /: "messages") NoReqBody jsonResponse $ mkTokenHeader t <> params'
+  where
+    params' = maybe mempty (("force" =:) . bool 0 (1 :: Int)) force
+
+postRoomMessage :: (MonadHttp m) => Token -> Int -> MessageBody -> m (JsonResponse PostRoomMessageResponse)
+postRoomMessage t n body = req POST (baseUrl /: "rooms" /~ n /: "messages") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
+  where
+    params' = toReqParam "body" body
+
+getRoomMessage :: (MonadHttp m) => Token -> Int -> Text -> m (JsonResponse GetRoomMessageResponse)
+getRoomMessage t rid mid = req GET (baseUrl /: "rooms" /~ rid /: "messages" /~ mid) NoReqBody jsonResponse $ mkTokenHeader t

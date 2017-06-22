@@ -14,18 +14,25 @@ module ChatWork.Types
     , PutRoomMembersResponse(..)
     , GetIncomingRequestsResponse
     , PutIncomingRequestsResponse(..)
+    , GetRoomMessagesResponse
+    , PostRoomMessageResponse
+    , GetRoomMessageResponse
     , CreateRoomParams(..)
     , UpdateRoomParams(..)
     , RoomMembersParams(..)
     , DeleteRoomActionType(..)
+    , Force
+    , MessageBody
     , IconPreset(..)
     , Task(..)
     , Room(..)
     , Account(..)
     , Contact(..)
     , Member(..)
+    , Message(..)
     , IncomingRequest(..)
     , RoomIdWrap(..)
+    , MessageIdWrap(..)
     , ToReqParam(..)
     ) where
 
@@ -266,6 +273,36 @@ data RoomMembersParams = RoomMembersParams
                        , getMemberIds :: Maybe [Int]
                        , getReadonlyIds :: Maybe [Int]
                        } deriving (Show)
+
+type GetRoomMessagesResponse = [Message]
+
+type Force = Bool
+
+type PostRoomMessageResponse = MessageIdWrap
+
+newtype MessageIdWrap = MessageIdWrap { getMessageId :: Text } deriving (Show, Generic)
+
+type MessageBody = Text
+
+instance ToJSON MessageIdWrap where
+  toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
+instance FromJSON MessageIdWrap where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
+
+type GetRoomMessageResponse = Message
+
+data Message = Message
+             { messageToMessageId :: Text
+             , messageToAccount :: Account
+             , messageToBody :: Text
+             , messageToSendTime :: Int
+             , messageToUpdateTime :: Int
+             } deriving (Show, Generic)
+
+instance ToJSON Message where
+  toJSON = genericToJSON $ aesonDrop (strLength "messageTo") snakeCase
+instance FromJSON Message where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "messageTo") snakeCase
 
 type GetIncomingRequestsResponse = [IncomingRequest]
 
