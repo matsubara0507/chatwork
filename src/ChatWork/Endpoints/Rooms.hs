@@ -69,7 +69,7 @@ putRoomMembers t n params = req PUT (baseUrl /: "rooms" /~ n /: "members") (ReqB
 getRoomMessages :: (MonadHttp m) => Token -> Int -> Maybe Force -> m (JsonResponse GetRoomMessagesResponse)
 getRoomMessages t n force = req GET (baseUrl /: "rooms" /~ n /: "messages") NoReqBody jsonResponse $ mkTokenHeader t <> params'
   where
-    params' = maybe mempty (("force" =:) . bool 0 (1 :: Int)) force
+    params' = toReqParam "force" (bool 0 (1 :: Int) <$> force)
 
 postRoomMessage :: (MonadHttp m) => Token -> Int -> MessageBody -> m (JsonResponse PostRoomMessageResponse)
 postRoomMessage t n body = req POST (baseUrl /: "rooms" /~ n /: "messages") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t

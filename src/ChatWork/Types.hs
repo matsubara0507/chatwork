@@ -39,10 +39,11 @@ module ChatWork.Types
 import Data.Aeson
 import Data.Aeson.Types
 import Data.Aeson.Casing
+import Data.Monoid (Monoid)
 import Data.Text (Text, pack)
 import Data.ByteString (ByteString)
 import GHC.Generics
-import Network.HTTP.Req (FormUrlEncodedParam, (=:))
+import Network.HTTP.Req (QueryParam, (=:))
 
 type Token = ByteString
 
@@ -343,7 +344,7 @@ strLength :: String -> Int
 strLength = length
 
 class ToReqParam a where
-  toReqParam :: Text -> a -> FormUrlEncodedParam
+  toReqParam :: (QueryParam param, Monoid param) => Text -> a -> param
 
 instance ToReqParam Int where
   toReqParam = (=:)
