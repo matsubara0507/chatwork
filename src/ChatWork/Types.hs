@@ -260,7 +260,7 @@ instance FromJSON Member where
 data PutRoomMembersResponse = PutRoomMembersResponse
                             { roomMembersToAdmin :: [Int]
                             , roomMembersToMember :: [Int]
-                            , roomMembersReadonly :: [Int]
+                            , roomMembersToReadonly :: [Int]
                             } deriving (Show, Generic)
 
 instance ToJSON PutRoomMembersResponse where
