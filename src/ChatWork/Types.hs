@@ -17,9 +17,14 @@ module ChatWork.Types
     , GetRoomMessagesResponse
     , PostRoomMessageResponse
     , GetRoomMessageResponse
+    , GetRoomTasksResponse
+    , PostRoomTaskResponse
+    , GetRoomTaskResponse
     , CreateRoomParams(..)
     , UpdateRoomParams(..)
     , RoomMembersParams(..)
+    , GetTasksParams(..)
+    , CreateTaskParams(..)
     , DeleteRoomActionType(..)
     , Force
     , MessageBody
@@ -30,9 +35,12 @@ module ChatWork.Types
     , Contact(..)
     , Member(..)
     , Message(..)
+    , RoomTask(..)
+    , TaskStatus(..)
     , IncomingRequest(..)
     , RoomIdWrap(..)
     , MessageIdWrap(..)
+    , TaskIdsWrap(..)
     , ToReqParam(..)
     ) where
 
@@ -305,6 +313,52 @@ instance ToJSON Message where
 instance FromJSON Message where
   parseJSON = genericParseJSON $ aesonDrop (strLength "messageTo") snakeCase
 
+type GetRoomTasksResponse = [RoomTask]
+
+data GetTasksParams = GetTasksParams
+                   { getTaskAccountId :: Maybe Int
+                   , getTaskAssignedByAccountId :: Maybe Int
+                   , getTaskStatus :: Maybe TaskStatus
+                   } deriving (Show)
+
+data TaskStatus = Open | Done
+
+instance Show TaskStatus where
+  show Open = "open"
+  show Done = "done"
+
+type PostRoomTaskResponse = TaskIdsWrap
+
+data CreateTaskParams = CreateTaskParams
+                      { getTaskBody :: Text
+                      , getTaskLimit :: Maybe Int
+                      , getTaskToIds :: [Int]
+                      } deriving (Show)
+
+type GetRoomTaskResponse = RoomTask
+
+data RoomTask = RoomTask
+              { roomTaskToTaskId :: Int
+              , roomTaskToAccount :: Account
+              , roomTaskToAssignedByAccount :: Account
+              , roomTaskToMessageId :: Text
+              , roomTaskToBody :: Text
+              , roomTaskToLimitTime :: Int
+              , roomTaskToStatus :: Text
+              } deriving (Show, Generic)
+
+instance ToJSON RoomTask where
+  toJSON = genericToJSON $ aesonDrop (strLength "roomTaskTo") snakeCase
+instance FromJSON RoomTask where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "roomTaskTo") snakeCase
+
+newtype TaskIdsWrap = TaskIdsWrap { getTaskIds :: [Int] } deriving (Show, Generic)
+
+instance ToJSON TaskIdsWrap where
+  toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
+instance FromJSON TaskIdsWrap where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
+
 type GetIncomingRequestsResponse = [IncomingRequest]
 
 data IncomingRequest = IncomingRequest
@@ -359,4 +413,7 @@ instance Show a => ToReqParam [a] where
   toReqParam name = toReqParam name . foldl (\acc a -> mconcat [acc, ",", pack $ show a]) ""
 
 instance ToReqParam IconPreset where
+  toReqParam name = toReqParam name . pack . show
+
+instance ToReqParam TaskStatus where
   toReqParam name = toReqParam name . pack . show

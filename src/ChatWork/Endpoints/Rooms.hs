@@ -11,6 +11,9 @@ module ChatWork.Endpoints.Rooms
     , getRoomMessages
     , postRoomMessage
     , getRoomMessage
+    , getRoomTasks
+    , postRoomTask
+    , getRoomTask
     ) where
 
 import Data.Bool (bool)
@@ -26,7 +29,8 @@ import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
                       , UpdateRoomParams(..), PutRoomResponse, DeleteRoomActionType
                       , GetRoomMembersResponse, PutRoomMembersResponse, RoomMembersParams(..)
                       , GetRoomMessagesResponse, PostRoomMessageResponse, GetRoomMessageResponse
-                      , Force, MessageBody)
+                      , Force, MessageBody, GetRoomTasksResponse, GetTasksParams(..)
+                      , PostRoomTaskResponse, CreateTaskParams(..), GetRoomTaskResponse)
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
@@ -78,3 +82,20 @@ postRoomMessage t n body = req POST (baseUrl /: "rooms" /~ n /: "messages") (Req
 
 getRoomMessage :: (MonadHttp m) => Token -> Int -> Text -> m (JsonResponse GetRoomMessageResponse)
 getRoomMessage t rid mid = req GET (baseUrl /: "rooms" /~ rid /: "messages" /~ mid) NoReqBody jsonResponse $ mkTokenHeader t
+
+getRoomTasks :: (MonadHttp m) => Token -> Int -> GetTasksParams -> m (JsonResponse GetRoomTasksResponse)
+getRoomTasks t n params = req GET (baseUrl /: "rooms" /~ n /: "tasks") NoReqBody jsonResponse $ mkTokenHeader t <> params'
+  where
+    params' = toReqParam "account_id" (getTaskAccountId params)
+           <> toReqParam "assigned_by_account_id" (getTaskAssignedByAccountId params)
+           <> toReqParam "status" (getTaskStatus params)
+
+postRoomTask :: (MonadHttp m) => Token -> Int -> CreateTaskParams -> m (JsonResponse PostRoomTaskResponse)
+postRoomTask t n params = req POST (baseUrl /: "rooms" /~ n /: "tasks") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
+  where
+    params' = toReqParam "body" (getTaskBody params)
+           <> toReqParam "limit" (getTaskLimit params)
+           <> toReqParam "to_ids" (getTaskToIds params)
+
+getRoomTask :: (MonadHttp m) => Token -> Int -> Int -> m (JsonResponse GetRoomTaskResponse)
+getRoomTask t rid tid = req GET (baseUrl /: "rooms" /~ rid /: "tasks" /~ tid) NoReqBody jsonResponse $ mkTokenHeader t
