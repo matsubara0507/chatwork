@@ -20,6 +20,8 @@ module ChatWork.Types
     , GetRoomTasksResponse
     , PostRoomTaskResponse
     , GetRoomTaskResponse
+    , GetRoomFilesResponse
+    , GetRoomFileResponse
     , CreateRoomParams(..)
     , UpdateRoomParams(..)
     , RoomMembersParams(..)
@@ -27,6 +29,8 @@ module ChatWork.Types
     , CreateTaskParams(..)
     , DeleteRoomActionType(..)
     , Force
+    , AccountId
+    , CreateUrlFlag
     , MessageBody
     , IconPreset(..)
     , Task(..)
@@ -37,6 +41,7 @@ module ChatWork.Types
     , Message(..)
     , RoomTask(..)
     , TaskStatus(..)
+    , File(..)
     , IncomingRequest(..)
     , RoomIdWrap(..)
     , MessageIdWrap(..)
@@ -358,6 +363,28 @@ instance ToJSON TaskIdsWrap where
   toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
 instance FromJSON TaskIdsWrap where
   parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
+
+type GetRoomFilesResponse = [File]
+
+type AccountId = Int
+
+type GetRoomFileResponse = File
+
+type CreateUrlFlag = Bool
+
+data File = File
+          { fileToFileId :: Int
+          , fileToAccount :: Account
+          , fileToMessageId :: Text
+          , fileToFilename :: Text
+          , fileToFilesize :: Int
+          , fileToUploadTime :: Int
+          } deriving (Show, Generic)
+
+instance ToJSON File where
+  toJSON = genericToJSON $ aesonDrop (strLength "fileTo") snakeCase
+instance FromJSON File where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "fileTo") snakeCase
 
 type GetIncomingRequestsResponse = [IncomingRequest]
 

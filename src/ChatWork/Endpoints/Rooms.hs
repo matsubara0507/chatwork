@@ -14,6 +14,8 @@ module ChatWork.Endpoints.Rooms
     , getRoomTasks
     , postRoomTask
     , getRoomTask
+    , getRoomFiles
+    , getRoomFile
     ) where
 
 import Data.Bool (bool)
@@ -30,7 +32,8 @@ import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
                       , GetRoomMembersResponse, PutRoomMembersResponse, RoomMembersParams(..)
                       , GetRoomMessagesResponse, PostRoomMessageResponse, GetRoomMessageResponse
                       , Force, MessageBody, GetRoomTasksResponse, GetTasksParams(..)
-                      , PostRoomTaskResponse, CreateTaskParams(..), GetRoomTaskResponse)
+                      , PostRoomTaskResponse, CreateTaskParams(..), GetRoomTaskResponse
+                      , GetRoomFilesResponse, GetRoomFileResponse, AccountId, CreateUrlFlag)
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
@@ -99,3 +102,13 @@ postRoomTask t n params = req POST (baseUrl /: "rooms" /~ n /: "tasks") (ReqBody
 
 getRoomTask :: (MonadHttp m) => Token -> Int -> Int -> m (JsonResponse GetRoomTaskResponse)
 getRoomTask t rid tid = req GET (baseUrl /: "rooms" /~ rid /: "tasks" /~ tid) NoReqBody jsonResponse $ mkTokenHeader t
+
+getRoomFiles :: (MonadHttp m) => Token -> Int -> Maybe AccountId -> m (JsonResponse GetRoomFilesResponse)
+getRoomFiles t rid aid = req GET (baseUrl /: "rooms" /~ rid /: "files") NoReqBody jsonResponse $ mkTokenHeader t <> params'
+  where
+    params' = toReqParam "account_id" aid
+
+getRoomFile :: (MonadHttp m) => Token -> Int -> Int -> Maybe CreateUrlFlag -> m (JsonResponse GetRoomFileResponse)
+getRoomFile t rid fid flag = req GET (baseUrl /: "rooms" /~ rid /: "files" /~ fid) NoReqBody jsonResponse $ mkTokenHeader t <> params'
+  where
+    params' = toReqParam "create_download_url" (bool 0 (1 :: Int) <$> flag)
