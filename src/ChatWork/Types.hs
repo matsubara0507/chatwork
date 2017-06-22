@@ -8,7 +8,7 @@ module ChatWork.Types
     , GetContactsResponse
     , GetRoomsResponse
     , PostRoomResponse
-    , GetRoomResponse
+    , GetRoomResponse(..)
     , PutRoomResponse
     , GetIncomingRequestsResponse
     , PutIncomingRequestsResponse(..)
@@ -95,18 +95,7 @@ instance FromJSON Task where
 data Room = Room
           { roomToRoomId :: Int
           , roomToName :: Text
-          , roomToType :: Maybe Text
-          , roomToRool :: Maybe Text
-          , roomToSticky :: Maybe Bool
-          , roomToUnreadNum :: Maybe Int
-          , roomToMentionNum :: Maybe Int
-          , roomToMytaskNum :: Maybe Int
-          , roomToMessageNum :: Maybe Int
-          , roomToFileNum :: Maybe Int
-          , roomToTaskNum :: Maybe Int
           , roomToIconPath :: Text
-          , roomToLastUpdateTime :: Maybe Int
-          , roomToDescription :: Maybe Text
           } deriving (Show, Generic)
 
 instance ToJSON Room where
@@ -143,9 +132,29 @@ instance ToJSON Contact where
 instance FromJSON Contact where
   parseJSON = genericParseJSON $ aesonDrop (strLength "contactTo") snakeCase
 
-type GetRoomsResponse = [Room]
+type GetRoomsResponse = [GetRoomResponse]
 
-type GetRoomResponse = Room
+data GetRoomResponse = GetRoomResponse
+                      { getRoomToRoomId :: Int
+                      , getRoomToName :: Text
+                      , getRoomToType :: Text
+                      , getRoomToRole :: Text
+                      , getRoomToSticky :: Bool
+                      , getRoomToUnreadNum :: Int
+                      , getRoomToMentionNum :: Int
+                      , getRoomToMytaskNum :: Int
+                      , getRoomToMessageNum :: Int
+                      , getRoomToFileNum :: Int
+                      , getRoomToTaskNum :: Int
+                      , getRoomToIconPath :: Text
+                      , getRoomToLastUpdateTime :: Int
+                      , getRoomToDescription :: Maybe Text
+                      } deriving (Show, Generic)
+
+instance ToJSON GetRoomResponse where
+  toJSON = genericToJSON $ aesonDrop (strLength "getRoomTo") snakeCase
+instance FromJSON GetRoomResponse where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "getRoomTo") snakeCase
 
 data CreateRoomParams = CreateRoomParams
                       { cRoomDescription :: Maybe Text
