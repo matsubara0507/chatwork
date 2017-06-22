@@ -6,6 +6,8 @@ module ChatWork.Endpoints.Rooms
     , getRoom
     , putRoom
     , deleteRoom
+    , getRoomMembers
+    , putRoomMembers
     ) where
 
 import Data.Monoid ((<>))
@@ -16,7 +18,8 @@ import ChatWork.Endpoints (baseUrl, mkTokenHeader, DELETE2(..))
 import ChatWork.Internal (req)
 import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
                       , GetRoomResponse, CreateRoomParams(..), ToReqParam(..)
-                      , UpdateRoomParams(..), PutRoomResponse, DeleteRoomActionType)
+                      , UpdateRoomParams(..), PutRoomResponse, DeleteRoomActionType
+                      , GetRoomMembersResponse, PutRoomMembersResponse, RoomMembersParams(..))
 
 getRooms :: (MonadHttp m) => Token -> m (JsonResponse GetRoomsResponse)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
@@ -45,3 +48,13 @@ deleteRoom :: (MonadHttp m) => Token -> Int -> DeleteRoomActionType -> m IgnoreR
 deleteRoom t n action = req DELETE2 (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') ignoreResponse $ mkTokenHeader t
   where
     params' = "action_type" =: show action
+
+getRoomMembers :: (MonadHttp m) => Token -> Int -> m (JsonResponse GetRoomMembersResponse)
+getRoomMembers t n = req GET (baseUrl /: "rooms" /~ n /: "members") NoReqBody jsonResponse $ mkTokenHeader t
+
+putRoomMembers :: (MonadHttp m) => Token -> Int -> RoomMembersParams -> m (JsonResponse PutRoomMembersResponse)
+putRoomMembers t n params = req PUT (baseUrl /: "rooms" /~ n /: "members") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
+  where
+    params' = toReqParam "members_admin_ids" (getAdminIds params)
+           <> toReqParam "members_member_ids" (getMemberIds params)
+           <> toReqParam "members_readonly_ids" (getReadonlyIds params)

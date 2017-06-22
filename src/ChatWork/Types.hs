@@ -10,16 +10,20 @@ module ChatWork.Types
     , PostRoomResponse
     , GetRoomResponse(..)
     , PutRoomResponse
+    , GetRoomMembersResponse
+    , PutRoomMembersResponse(..)
     , GetIncomingRequestsResponse
     , PutIncomingRequestsResponse(..)
     , CreateRoomParams(..)
     , UpdateRoomParams(..)
+    , RoomMembersParams(..)
     , DeleteRoomActionType(..)
     , IconPreset(..)
     , Task(..)
     , Room(..)
     , Account(..)
     , Contact(..)
+    , Member(..)
     , IncomingRequest(..)
     , RoomIdWrap(..)
     , ToReqParam(..)
@@ -227,6 +231,41 @@ data DeleteRoomActionType = LeaveRoom
 instance Show DeleteRoomActionType where
   show LeaveRoom = "leave"
   show DeleteRoom = "delete"
+
+type GetRoomMembersResponse = [Member]
+
+data Member = Member
+            { memberToAccountId :: Int
+            , memberToRole :: Text
+            , memberToName :: Text
+            , memberToChatworkId :: Text
+            , memberToOrganizationId :: Int
+            , memberToOrganizationName :: Text
+            , memberToDepartment :: Text
+            , memberToAvatarImageUrl :: Text
+            } deriving (Show, Generic)
+
+instance ToJSON Member where
+  toJSON = genericToJSON $ aesonDrop (strLength "memberTo") snakeCase
+instance FromJSON Member where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "memberTo") snakeCase
+
+data PutRoomMembersResponse = PutRoomMembersResponse
+                            { roomMembersToAdmin :: [Int]
+                            , roomMembersToMember :: [Int]
+                            , roomMembersReadonly :: [Int]
+                            } deriving (Show, Generic)
+
+instance ToJSON PutRoomMembersResponse where
+  toJSON = genericToJSON $ aesonDrop (strLength "roomMembersTo") snakeCase
+instance FromJSON PutRoomMembersResponse where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "roomMembersTo") snakeCase
+
+data RoomMembersParams = RoomMembersParams
+                       { getAdminIds :: [Int]
+                       , getMemberIds :: Maybe [Int]
+                       , getReadonlyIds :: Maybe [Int]
+                       } deriving (Show)
 
 type GetIncomingRequestsResponse = [IncomingRequest]
 
