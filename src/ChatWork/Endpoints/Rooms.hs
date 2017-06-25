@@ -22,8 +22,8 @@ import Data.Bool (bool)
 import Data.Monoid ((<>))
 import Data.Text (Text)
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
-                        , IgnoreResponse, GET(..), POST(..), PUT(..), DELETE(..)
-                        , (/:), (/~), (=:), jsonResponse, ignoreResponse)
+                        , GET(..), POST(..), PUT(..), DELETE(..)
+                        , (/:), (/~), (=:), jsonResponse)
 import ChatWork.Utils (Token, baseUrl, mkTokenHeader, DELETE2(..))
 import ChatWork.Internal (req)
 import ChatWork.Types ( GetRoomsResponse, PostRoomResponse
@@ -58,8 +58,8 @@ putRoom t n params = req PUT (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') j
            <> toReqParam "icon_preset" (uIconPreset params)
            <> toReqParam "name" (uRoomName params)
 
-deleteRoom :: (MonadHttp m) => Token -> Int -> DeleteRoomActionType -> m IgnoreResponse
-deleteRoom t n action = req DELETE2 (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') ignoreResponse $ mkTokenHeader t
+deleteRoom :: (MonadHttp m) => Token -> Int -> DeleteRoomActionType -> m (JsonResponse ())
+deleteRoom t n action = req DELETE2 (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
     params' = "action_type" =: show action
 
