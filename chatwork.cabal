@@ -24,6 +24,7 @@ library
                      , ChatWork.MonadHttpIO
                      , ChatWork.Types
                      , ChatWork.Types.Base
+                     , ChatWork.Types.Error
                      , ChatWork.Types.Me
                      , ChatWork.Types.My
                      , ChatWork.Types.Contacts

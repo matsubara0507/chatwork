@@ -10,13 +10,14 @@ import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), jsonResponse
                         , GET(..), PUT(..), DELETE(..), (/:), (/~))
 import ChatWork.Utils (Token, baseUrl, mkTokenHeader)
 import ChatWork.Internal (req)
-import ChatWork.Types (GetIncomingRequestsResponse, PutIncomingRequestsResponse)
+import ChatWork.Types ( ChatWorkResponse
+                      , GetIncomingRequestsResponse, PutIncomingRequestsResponse)
 
-getIncomingRequests :: (MonadHttp m) => Token -> m (JsonResponse GetIncomingRequestsResponse)
+getIncomingRequests :: (MonadHttp m) => Token -> m (JsonResponse (ChatWorkResponse GetIncomingRequestsResponse))
 getIncomingRequests = req GET (baseUrl /: "incoming_requests") NoReqBody jsonResponse . mkTokenHeader
 
-putIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse PutIncomingRequestsResponse)
+putIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse (ChatWorkResponse PutIncomingRequestsResponse))
 putIncomingRequests t n = req PUT (baseUrl /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkTokenHeader t
 
-deleteIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse ())
+deleteIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse (ChatWorkResponse ()))
 deleteIncomingRequests t n = req DELETE (baseUrl /: "incoming_requests" /~ n) NoReqBody jsonResponse $ mkTokenHeader t

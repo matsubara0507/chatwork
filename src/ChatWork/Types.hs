@@ -1,11 +1,16 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
+-- {-# LANGUAGE OverlappingInstances #-}
 
 module ChatWork.Types
-    ( ToReqParam(..)
+    ( ChatWorkResponse(..)
+    , ToReqParam(..)
 
     , module ChatWork.Types.Base
     , module ChatWork.Types.Contacts
+    , module ChatWork.Types.Error
     , module ChatWork.Types.IncomingRequests
     , module ChatWork.Types.Me
     , module ChatWork.Types.My
@@ -14,17 +19,23 @@ module ChatWork.Types
 
 import ChatWork.Types.Base
 import ChatWork.Types.Contacts
+import ChatWork.Types.Error
 import ChatWork.Types.IncomingRequests
 import ChatWork.Types.Me
 import ChatWork.Types.My
 import ChatWork.Types.Rooms
 
--- import Data.Aeson.Types
-
+import Control.Applicative ((<|>))
+import Data.Aeson (FromJSON(..), Value(..))
 import Data.Monoid (Monoid)
 import Data.Text (Text, pack)
 import GHC.Generics
 import Network.HTTP.Req (QueryParam, (=:))
+
+type ChatWorkResponse a = Either ChatWorkErrors a
+
+instance {-# OVERLAPS #-} (FromJSON a) => FromJSON (ChatWorkResponse a) where
+  parseJSON v = ((Left <$> parseJSON v) <|> (Right <$> parseJSON v))
 
 class ToReqParam a where
   toReqParam :: (QueryParam param, Monoid param) => Text -> a -> param
