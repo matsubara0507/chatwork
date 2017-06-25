@@ -24,9 +24,9 @@ import Data.Text (Text)
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
                         , IgnoreResponse, GET(..), POST(..), PUT(..), DELETE(..)
                         , (/:), (/~), (=:), jsonResponse, ignoreResponse)
-import ChatWork.Endpoints (baseUrl, mkTokenHeader, DELETE2(..))
+import ChatWork.Utils (Token, baseUrl, mkTokenHeader, DELETE2(..))
 import ChatWork.Internal (req)
-import ChatWork.Types ( Token, GetRoomsResponse, PostRoomResponse
+import ChatWork.Types ( GetRoomsResponse, PostRoomResponse
                       , GetRoomResponse, CreateRoomParams(..), ToReqParam(..)
                       , UpdateRoomParams(..), PutRoomResponse, DeleteRoomActionType
                       , GetRoomMembersResponse, PutRoomMembersResponse, RoomMembersParams(..)

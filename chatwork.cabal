@@ -23,6 +23,13 @@ library
                      , ChatWork.Endpoints.IncomingRequests
                      , ChatWork.MonadHttpIO
                      , ChatWork.Types
+                     , ChatWork.Types.Base
+                     , ChatWork.Types.Me
+                     , ChatWork.Types.My
+                     , ChatWork.Types.Contacts
+                     , ChatWork.Types.Rooms
+                     , ChatWork.Types.IncomingRequests
+                     , ChatWork.Utils
   other-modules:       ChatWork.Internal
   build-depends:       base >= 4.7 && < 5
                      , aeson

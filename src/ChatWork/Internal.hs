@@ -2,7 +2,7 @@ module ChatWork.Internal
     ( req
     ) where
 
-import ChatWork.Endpoints (getHttpResponse')
+import ChatWork.Utils (getHttpResponse')
 
 import Data.Proxy (Proxy)
 import Network.HTTP.Req ( MonadHttp, HttpMethod, HttpBody, HttpResponse, Url

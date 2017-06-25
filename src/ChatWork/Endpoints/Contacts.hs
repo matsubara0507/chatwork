@@ -6,9 +6,9 @@ module ChatWork.Endpoints.Contacts
 
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), GET(..)
                         , (/:), jsonResponse)
-import ChatWork.Endpoints (baseUrl, mkTokenHeader)
+import ChatWork.Utils (Token, baseUrl, mkTokenHeader)
 import ChatWork.Internal (req)
-import ChatWork.Types (Token, GetContactsResponse)
+import ChatWork.Types (GetContactsResponse)
 
 getContacts :: (MonadHttp m) => Token -> m (JsonResponse GetContactsResponse)
 getContacts = req GET (baseUrl /: "contacts") NoReqBody jsonResponse . mkTokenHeader
