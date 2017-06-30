@@ -30,11 +30,11 @@ import Data.Aeson (FromJSON(..), Value(..))
 import Data.Monoid (Monoid)
 import Data.Text (Text, pack)
 import GHC.Generics
-import Network.HTTP.Req (QueryParam, (=:))
+import Network.HTTP.Req (JsonResponse, QueryParam, (=:))
 
-type ChatWorkResponse a = Either ChatWorkErrors a
+type ChatWorkResponse a = JsonResponse (Either ChatWorkErrors a)
 
-instance {-# OVERLAPS #-} (FromJSON a) => FromJSON (ChatWorkResponse a) where
+instance {-# OVERLAPS #-} (FromJSON a) => FromJSON (Either ChatWorkErrors a) where
   parseJSON v = ((Left <$> parseJSON v) <|> (Right <$> parseJSON v))
 
 class ToReqParam a where

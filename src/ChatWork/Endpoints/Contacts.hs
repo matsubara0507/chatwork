@@ -10,5 +10,5 @@ import ChatWork.Utils (Token, baseUrl, mkTokenHeader)
 import ChatWork.Internal (req)
 import ChatWork.Types (ChatWorkResponse, Contacts)
 
-getContacts :: (MonadHttp m) => Token -> m (JsonResponse (ChatWorkResponse Contacts))
+getContacts :: (MonadHttp m) => Token -> m (ChatWorkResponse Contacts)
 getContacts = req GET (baseUrl /: "contacts") NoReqBody jsonResponse . mkTokenHeader
