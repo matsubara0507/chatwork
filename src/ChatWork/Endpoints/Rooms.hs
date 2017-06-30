@@ -30,7 +30,7 @@ import ChatWork.Utils (Token, baseUrl, mkTokenHeader, DELETE2(..))
 import ChatWork.Internal (req)
 import ChatWork.Types ( ChatWorkResponse, ToReqParam(..), Rooms, RoomIdWrap, RoomDetail
                       , CreateRoomParams(..), UpdateRoomParams(..), DeleteRoomActionType(..)
-                      , Members, PermissionMembers, RoomMembersParams(..)
+                      , Members, MembersPermission, RoomMembersParams(..)
                       , Messages, MessageIdWrap, Message, Force, MessageBody
                       , RoomTasks, TaskIdsWrap, RoomTask, GetTasksParams(..)
                       , CreateTaskParams(..), Files, File, AccountId, CreateUrlFlag)
@@ -72,7 +72,7 @@ deleteRoom' t n action = req DELETE2 (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc pa
 getMembers :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse Members)
 getMembers t n = req GET (baseUrl /: "rooms" /~ n /: "members") NoReqBody jsonResponse $ mkTokenHeader t
 
-updateMembersPermission :: (MonadHttp m) => Token -> Int -> RoomMembersParams -> m (ChatWorkResponse PermissionMembers)
+updateMembersPermission :: (MonadHttp m) => Token -> Int -> RoomMembersParams -> m (ChatWorkResponse MembersPermission)
 updateMembersPermission t n params = req PUT (baseUrl /: "rooms" /~ n /: "members") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
     params' = toReqParam "members_admin_ids" (getAdminIds params)

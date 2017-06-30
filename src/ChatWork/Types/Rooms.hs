@@ -6,7 +6,7 @@ module ChatWork.Types.Rooms
     , RoomIdWrap(..)
     , Members
     , Member(..)
-    , PermissionMembers(..)
+    , MembersPermission(..)
     , Messages
     , Message(..)
     , MessageIdWrap(..)
@@ -83,16 +83,16 @@ instance ToJSON Member where
 instance FromJSON Member where
   parseJSON = genericParseJSON $ aesonDrop (strLength "memberTo") snakeCase
 
-data PermissionMembers = PermissionMembers
-                 { permissionMembersToAdmin :: [Int]
-                 , permissionMembersToMember :: [Int]
-                 , permissionMembersToReadonly :: [Int]
+data MembersPermission = MembersPermission
+                 { membersPermissionToAdmin :: [Int]
+                 , membersPermissionToMember :: [Int]
+                 , membersPermissionToReadonly :: [Int]
                  } deriving (Show, Generic)
 
-instance ToJSON PermissionMembers where
-  toJSON = genericToJSON $ aesonDrop (strLength "permissionMembersTo") snakeCase
-instance FromJSON PermissionMembers where
-  parseJSON = genericParseJSON $ aesonDrop (strLength "permissionMembersTo") snakeCase
+instance ToJSON MembersPermission where
+  toJSON = genericToJSON $ aesonDrop (strLength "membersPermissionTo") snakeCase
+instance FromJSON MembersPermission where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "membersPermissionTo") snakeCase
 
 type Messages = [Message]
 
