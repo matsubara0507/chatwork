@@ -5,7 +5,7 @@ The ChatWork API for Haskell.
 ## example
 
 ```haskell
->> :module Network.HTTP.Req ChatWork.Endpoints ChatWork.MonadHttpIO ChatWork.Types
+>> :module Network.HTTP.Req ChatWork
 >> token = "xxx"
 >> print =<< (responseBody <$> getMe  token)
 Right (Me {meToAccountId = 1234567, meToRoomId = 9876543, meToName = "\26494\21407\20449\24544", meToChatworkId = "", meToOrganizationId = 13579, meToOrganizationName = "", meToDepartment = "", meToTitle = "", meToUrl = "", meToIntroduction = "", meToMail = "", meToTelOrganization = "", meToTelExtension = "", meToTelMobile = "", meToSkype = "", meToFacebook = "", meToTwitter = "", meToAvatarImageUrl = "https://appdata.chatwork.com/avatar/1234/12345678.rsz.png"})
