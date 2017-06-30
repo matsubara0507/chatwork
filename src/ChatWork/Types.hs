@@ -4,8 +4,10 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 -- {-# LANGUAGE OverlappingInstances #-}
 
-module ChatWork.Types
-    ( ChatWorkResponse(..)
+module ChatWork.Types (
+    -- * type synonym of Response Json
+      ChatWorkResponse(..)
+    -- * Helper type class for constructing Request paramater
     , ToReqParam(..)
 
     , module Types
@@ -30,10 +32,16 @@ import           GHC.Generics
 import           Network.HTTP.Req                (JsonResponse, QueryParam,
                                                   (=:))
 
+-- |
+-- Wrapper type synonym of 'JsonResponse' and 'ChatWorkErrors'
 type ChatWorkResponse a = JsonResponse (Either ChatWorkErrors a)
 
 instance {-# OVERLAPS #-} (FromJSON a) => FromJSON (Either ChatWorkErrors a) where
   parseJSON v = ((Left <$> parseJSON v) <|> (Right <$> parseJSON v))
+
+-- |
+-- Helper Type Class of 'QueryParam'
+-- use to construct request parameter from param type, e.g. 'CreateRoomParams'
 
 class ToReqParam a where
   toReqParam :: (QueryParam param, Monoid param) => Text -> a -> param

@@ -37,6 +37,9 @@ instance ToJSON Account where
 instance FromJSON Account where
   parseJSON = genericParseJSON $ aesonDrop (strLength "accountTo") snakeCase
 
+-- |
+-- use create new room
+-- see : <http://developer.chatwork.com/ja/endpoint_rooms.html#POST-rooms>
 data IconPreset = Group
                 | Check
                 | Document

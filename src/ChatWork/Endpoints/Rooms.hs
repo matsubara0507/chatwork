@@ -1,21 +1,29 @@
+-- |
+-- see : <http://developer.chatwork.com/ja/endpoint_rooms.html>
+
 {-# LANGUAGE OverloadedStrings #-}
 
-module ChatWork.Endpoints.Rooms
-    ( getRooms
+module ChatWork.Endpoints.Rooms (
+    -- * Room
+      getRooms
     , createRoom
     , getRoom
     , updateRoom
     , deleteRoom
     , leaveRoom
     , deleteRoom'
+    -- * Room Member
     , getMembers
     , updateMembersPermission
+    -- * Room Message
     , getMessages
     , postMessage
     , getMessage
+    -- * Room Task
     , getRoomTasks
     , createTask
     , getRoomTask
+    -- * Room File
     , getFiles
     , getFile
     ) where

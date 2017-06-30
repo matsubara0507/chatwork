@@ -1,3 +1,6 @@
+-- |
+-- see : <http://developer.chatwork.com/ja/endpoint_contacts.html>
+
 {-# LANGUAGE OverloadedStrings #-}
 
 module ChatWork.Endpoints.Contacts

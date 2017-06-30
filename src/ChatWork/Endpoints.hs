@@ -1,9 +1,18 @@
-module ChatWork.Endpoints
-    ( module Endpoints
+module ChatWork.Endpoints (
+    -- * /me
+      module ChatWork.Endpoints.Me
+    -- * /my
+    , module ChatWork.Endpoints.My
+    -- * /contacts
+    , module ChatWork.Endpoints.Contacts
+    -- * /rooms
+    , module ChatWork.Endpoints.Rooms
+    -- * /incoming_requests
+    , module ChatWork.Endpoints.IncomingRequests
     ) where
 
-import           ChatWork.Endpoints.Contacts         as Endpoints
-import           ChatWork.Endpoints.IncomingRequests as Endpoints
-import           ChatWork.Endpoints.Me               as Endpoints
-import           ChatWork.Endpoints.My               as Endpoints
-import           ChatWork.Endpoints.Rooms            as Endpoints
+import           ChatWork.Endpoints.Contacts
+import           ChatWork.Endpoints.IncomingRequests
+import           ChatWork.Endpoints.Me
+import           ChatWork.Endpoints.My
+import           ChatWork.Endpoints.Rooms

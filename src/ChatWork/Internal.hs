@@ -12,6 +12,10 @@ import           Network.HTTP.Req (AllowsBody, HttpBody, HttpBodyAllowed,
                                    HttpMethod, HttpResponse, MonadHttp, Option,
                                    ProvidesBody, Url, req')
 
+-- |
+-- Helper function for req'
+-- getHttpResponse' is used my custamize Manager
+
 req ::
   ( MonadHttp m, HttpMethod method, HttpBody body, HttpResponse response
   , HttpBodyAllowed (AllowsBody method) (ProvidesBody body))

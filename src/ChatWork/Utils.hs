@@ -2,14 +2,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeFamilies      #-}
 
-module ChatWork.Utils
-    ( Token
+module ChatWork.Utils (
+    -- * help to construct endpoint
+      Token
     , baseUrl
     , mkTokenHeader
+    -- * Custamize Managaer
     , getHttpResponse'
     , fixEmptyStringManager
     , fixEmptyString
+    -- * DELETE HTTP method with paramater
     , DELETE2(..)
+    -- * help to make 'FromJSON' instance
     , strLength
     ) where
 
@@ -34,14 +38,24 @@ import           Network.HTTP.Req             (AllowsBody (..),
 import           Network.HTTP.Types           (methodDelete)
 import           Network.HTTP.Types.Header    (hContentLength)
 
+-- |
+-- ChatWork API Token
+-- detail is <http://developer.chatwork.com/ja/authenticate.html>
 type Token = ByteString
 
+-- |
+-- Base URL for endpoints
+-- TODO : change type class function
 baseUrl :: Url 'Https
 baseUrl = https "api.chatwork.com" /: "v2"
 
+-- |
+-- Make HTTP Header to authenticate API Token of ChatWork
 mkTokenHeader :: Token -> Option 'Https
 mkTokenHeader token = header "X-ChatWorkToken" token
 
+-- |
+-- Helper function that use custamized Manager
 getHttpResponse' :: (HttpResponse a, MonadHttp m) => Proxy a -> Request -> Manager -> m a
 getHttpResponse' Proxy r m = liftIO $ getHttpResponse r =<< fixEmptyStringManager
 
@@ -51,6 +65,9 @@ fixEmptyStringManager = do
   let settings = mkManagerSettingsContext (Just context) def Nothing
   newManager $ settings { managerModifyResponse = fixEmptyString }
 
+-- |
+-- if response is no contents, replace "[]".
+-- aeson return parse error when response is no content response
 fixEmptyString :: Response BodyReader -> IO (Response BodyReader)
 fixEmptyString res = do
   reader <- constBodyReader ["[]"]
@@ -58,11 +75,16 @@ fixEmptyString res = do
     contentLength = fromMaybe "0" $ lookup hContentLength (responseHeaders res)
   return $ if contentLength /= "0" then res else res { responseBody = reader }
 
+-- |
+-- if want to use Delete HTTP methos with request param, use this type.
+-- ref : <https://hackage.haskell.org/package/req-0.3.0/docs/Network-HTTP-Req.html#t:DELETE>
 data DELETE2 = DELETE2
 
 instance HttpMethod DELETE2 where
   type AllowsBody DELETE2 = 'CanHaveBody
   httpMethodName Proxy = methodDelete
 
+-- |
+-- for resolve ambiguous type
 strLength :: String -> Int
 strLength = length

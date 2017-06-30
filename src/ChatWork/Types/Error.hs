@@ -11,6 +11,12 @@ import           Data.Aeson.Casing (aesonDrop, snakeCase)
 import           Data.Text         (Text)
 import           GHC.Generics      (Generic)
 
+-- |
+-- when error, chatwork is response:
+-- { "errors": ["Invalid API token"] }
+--
+-- see : http://developer.chatwork.com/ja/endpoints.html
+
 newtype ChatWorkErrors = ChatWorkErrors { getErrors :: [Text] } deriving (Show, Generic)
 
 instance ToJSON ChatWorkErrors where

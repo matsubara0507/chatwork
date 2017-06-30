@@ -1,3 +1,6 @@
+-- |
+-- see : <http://developer.chatwork.com/ja/endpoint_incoming_requests.html>
+
 {-# LANGUAGE OverloadedStrings #-}
 
 module ChatWork.Endpoints.IncomingRequests
