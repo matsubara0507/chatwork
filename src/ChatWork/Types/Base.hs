@@ -8,15 +8,16 @@ module ChatWork.Types.Base
     , AccountId
     ) where
 
-import ChatWork.Utils (strLength)
-import Data.Aeson (ToJSON(..), FromJSON(..), genericToJSON, genericParseJSON)
-import Data.Aeson.Casing (aesonDrop, snakeCase)
-import Data.Text (Text)
-import GHC.Generics (Generic)
+import           ChatWork.Utils    (strLength)
+import           Data.Aeson        (FromJSON (..), ToJSON (..),
+                                    genericParseJSON, genericToJSON)
+import           Data.Aeson.Casing (aesonDrop, snakeCase)
+import           Data.Text         (Text)
+import           GHC.Generics      (Generic)
 
 data Room = Room
-          { roomToRoomId :: Int
-          , roomToName :: Text
+          { roomToRoomId   :: Int
+          , roomToName     :: Text
           , roomToIconPath :: Text
           } deriving (Show, Generic)
 
@@ -26,8 +27,8 @@ instance FromJSON Room where
   parseJSON = genericParseJSON $ aesonDrop (strLength "roomTo") snakeCase
 
 data Account = Account
-             { accountToAccountId :: Int
-             , accountToName :: Text
+             { accountToAccountId      :: Int
+             , accountToName           :: Text
              , accountToAvatarImageUrl :: Text
              } deriving (Show, Generic)
 
@@ -56,23 +57,23 @@ data IconPreset = Group
                 deriving (Eq)
 
 instance Show IconPreset where
-  show Group = "group"
-  show Check = "check"
+  show Group    = "group"
+  show Check    = "check"
   show Document = "document"
-  show Meeting = "meeting"
-  show Event = "event"
-  show Project = "project"
+  show Meeting  = "meeting"
+  show Event    = "event"
+  show Project  = "project"
   show Business = "business"
-  show Study = "study"
+  show Study    = "study"
   show Security = "security"
-  show Star = "star"
-  show Idea = "idea"
-  show Heart = "heart"
-  show Magcup = "magcup"
-  show Beer = "beer"
-  show Music = "music"
-  show Sports = "sports"
-  show Travel = "travel"
+  show Star     = "star"
+  show Idea     = "idea"
+  show Heart    = "heart"
+  show Magcup   = "magcup"
+  show Beer     = "beer"
+  show Music    = "music"
+  show Sports   = "sports"
+  show Travel   = "travel"
 
 data TaskStatus = Open | Done
 

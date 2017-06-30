@@ -6,24 +6,25 @@ module ChatWork.Types.IncomingRequests
     , AcceptedIncomingRequest(..)
     ) where
 
-import ChatWork.Utils (strLength)
-import Data.Aeson (ToJSON(..), FromJSON(..), genericToJSON, genericParseJSON)
-import Data.Aeson.Casing (aesonDrop, snakeCase)
-import Data.Text (Text)
-import GHC.Generics (Generic)
+import           ChatWork.Utils    (strLength)
+import           Data.Aeson        (FromJSON (..), ToJSON (..),
+                                    genericParseJSON, genericToJSON)
+import           Data.Aeson.Casing (aesonDrop, snakeCase)
+import           Data.Text         (Text)
+import           GHC.Generics      (Generic)
 
 type IncomingRequests = [IncomingRequest]
 
 data IncomingRequest = IncomingRequest
-                     { incomingRequestToRequestId :: Int
-                     , incomingRequestToAccountId :: Int
-                     , incomingRequestToMessage :: Text
-                     , incomingRequestToName :: Text
-                     , incomingRequestToChatworkId :: Text
-                     , incomingRequestToOrganizationId :: Int
+                     { incomingRequestToRequestId        :: Int
+                     , incomingRequestToAccountId        :: Int
+                     , incomingRequestToMessage          :: Text
+                     , incomingRequestToName             :: Text
+                     , incomingRequestToChatworkId       :: Text
+                     , incomingRequestToOrganizationId   :: Int
                      , incomingRequestToOrganizationName :: Text
-                     , incomingRequestToDepartment :: Text
-                     , incomingRequestToAvatarImageUrl :: Text
+                     , incomingRequestToDepartment       :: Text
+                     , incomingRequestToAvatarImageUrl   :: Text
                      } deriving (Show, Generic)
 
 instance ToJSON IncomingRequest where
@@ -32,14 +33,14 @@ instance FromJSON IncomingRequest where
   parseJSON = genericParseJSON $ aesonDrop (strLength "incomingRequestTo") snakeCase
 
 data AcceptedIncomingRequest = AcceptedIncomingRequest
-                             { acceptedIncomingRequestToAccountId :: Int
-                             , acceptedIncomingRequestToRoomId :: Int
-                             , acceptedIncomingRequestToName :: Text
-                             , acceptedIncomingRequestToChatworkId :: Text
-                             , acceptedIncomingRequestToOrganizationId :: Int
+                             { acceptedIncomingRequestToAccountId        :: Int
+                             , acceptedIncomingRequestToRoomId           :: Int
+                             , acceptedIncomingRequestToName             :: Text
+                             , acceptedIncomingRequestToChatworkId       :: Text
+                             , acceptedIncomingRequestToOrganizationId   :: Int
                              , acceptedIncomingRequestToOrganizationName :: Text
-                             , acceptedIncomingRequestToDepartment :: Text
-                             , acceptedIncomingRequestToAvatarImageUrl :: Text
+                             , acceptedIncomingRequestToDepartment       :: Text
+                             , acceptedIncomingRequestToAvatarImageUrl   :: Text
                              } deriving (Show, Generic)
 
 instance ToJSON AcceptedIncomingRequest where

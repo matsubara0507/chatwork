@@ -6,11 +6,13 @@ module ChatWork.Endpoints.IncomingRequests
     , rejectIncomingRequests
     ) where
 
-import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), jsonResponse
-                        , GET(..), PUT(..), DELETE(..), (/:), (/~))
-import ChatWork.Utils (Token, baseUrl, mkTokenHeader)
-import ChatWork.Internal (req)
-import ChatWork.Types (ChatWorkResponse, IncomingRequests, AcceptedIncomingRequest)
+import           ChatWork.Internal (req)
+import           ChatWork.Types    (AcceptedIncomingRequest, ChatWorkResponse,
+                                    IncomingRequests)
+import           ChatWork.Utils    (Token, baseUrl, mkTokenHeader)
+import           Network.HTTP.Req  (DELETE (..), GET (..), JsonResponse,
+                                    MonadHttp, NoReqBody (..), PUT (..),
+                                    jsonResponse, (/:), (/~))
 
 getIncomingRequests :: (MonadHttp m) => Token -> m (ChatWorkResponse IncomingRequests)
 getIncomingRequests = req GET (baseUrl /: "incoming_requests") NoReqBody jsonResponse . mkTokenHeader

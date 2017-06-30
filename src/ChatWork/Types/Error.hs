@@ -4,11 +4,12 @@ module ChatWork.Types.Error
     ( ChatWorkErrors
     ) where
 
-import ChatWork.Utils (strLength)
-import Data.Aeson (ToJSON(..), FromJSON(..), genericToJSON, genericParseJSON)
-import Data.Aeson.Casing (aesonDrop, snakeCase)
-import Data.Text (Text)
-import GHC.Generics (Generic)
+import           ChatWork.Utils    (strLength)
+import           Data.Aeson        (FromJSON (..), ToJSON (..),
+                                    genericParseJSON, genericToJSON)
+import           Data.Aeson.Casing (aesonDrop, snakeCase)
+import           Data.Text         (Text)
+import           GHC.Generics      (Generic)
 
 newtype ChatWorkErrors = ChatWorkErrors { getErrors :: [Text] } deriving (Show, Generic)
 

@@ -1,36 +1,34 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
 -- {-# LANGUAGE OverlappingInstances #-}
 
 module ChatWork.Types
     ( ChatWorkResponse(..)
     , ToReqParam(..)
 
-    , module ChatWork.Types.Base
-    , module ChatWork.Types.Contacts
-    , module ChatWork.Types.Error
-    , module ChatWork.Types.IncomingRequests
-    , module ChatWork.Types.Me
-    , module ChatWork.Types.My
-    , module ChatWork.Types.Rooms
+    , module Types
     ) where
 
-import ChatWork.Types.Base
-import ChatWork.Types.Contacts
-import ChatWork.Types.Error
-import ChatWork.Types.IncomingRequests
-import ChatWork.Types.Me
-import ChatWork.Types.My
-import ChatWork.Types.Rooms
+import           ChatWork.Types.Base             as Types
+import           ChatWork.Types.Contacts         as Types
+import           ChatWork.Types.Error            as Types
+import           ChatWork.Types.IncomingRequests as Types
+import           ChatWork.Types.Me               as Types
+import           ChatWork.Types.My               as Types
+import           ChatWork.Types.Rooms            as Types
 
-import Control.Applicative ((<|>))
-import Data.Aeson (FromJSON(..), Value(..))
-import Data.Monoid (Monoid)
-import Data.Text (Text, pack)
-import GHC.Generics
-import Network.HTTP.Req (JsonResponse, QueryParam, (=:))
+import           ChatWork.Types.Base             (IconPreset, TaskStatus)
+import           ChatWork.Types.Error            (ChatWorkErrors)
+
+import           Control.Applicative             ((<|>))
+import           Data.Aeson                      (FromJSON (..), Value (..))
+import           Data.Monoid                     (Monoid)
+import           Data.Text                       (Text, pack)
+import           GHC.Generics
+import           Network.HTTP.Req                (JsonResponse, QueryParam,
+                                                  (=:))
 
 type ChatWorkResponse a = JsonResponse (Either ChatWorkErrors a)
 

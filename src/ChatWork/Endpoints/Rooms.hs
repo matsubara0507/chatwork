@@ -20,20 +20,25 @@ module ChatWork.Endpoints.Rooms
     , getFile
     ) where
 
-import Data.Bool (bool)
-import Data.Monoid ((<>))
-import Data.Text (Text)
-import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), ReqBodyUrlEnc(..)
-                        , GET(..), POST(..), PUT(..), DELETE(..)
-                        , (/:), (/~), (=:), jsonResponse)
-import ChatWork.Utils (Token, baseUrl, mkTokenHeader, DELETE2(..))
-import ChatWork.Internal (req)
-import ChatWork.Types ( ChatWorkResponse, ToReqParam(..), Rooms, RoomIdWrap, RoomDetail
-                      , CreateRoomParams(..), UpdateRoomParams(..), DeleteRoomActionType(..)
-                      , Members, MembersPermission, RoomMembersParams(..)
-                      , Messages, MessageIdWrap, Message, Force, MessageBody
-                      , RoomTasks, TaskIdsWrap, RoomTask, GetTasksParams(..)
-                      , CreateTaskParams(..), Files, File, AccountId, CreateUrlFlag)
+import           ChatWork.Internal (req)
+import           ChatWork.Types    (AccountId, ChatWorkResponse,
+                                    CreateRoomParams (..),
+                                    CreateTaskParams (..), CreateUrlFlag,
+                                    DeleteRoomActionType (..), File, Files,
+                                    Force, GetTasksParams (..), Members,
+                                    MembersPermission, Message, MessageBody,
+                                    MessageIdWrap, Messages, RoomDetail,
+                                    RoomIdWrap, RoomMembersParams (..),
+                                    RoomTask, RoomTasks, Rooms, TaskIdsWrap,
+                                    ToReqParam (..), UpdateRoomParams (..))
+import           ChatWork.Utils    (DELETE2 (..), Token, baseUrl, mkTokenHeader)
+import           Data.Bool         (bool)
+import           Data.Monoid       ((<>))
+import           Data.Text         (Text)
+import           Network.HTTP.Req  (DELETE (..), GET (..), JsonResponse,
+                                    MonadHttp, NoReqBody (..), POST (..),
+                                    PUT (..), ReqBodyUrlEnc (..), jsonResponse,
+                                    (/:), (/~), (=:))
 
 getRooms :: (MonadHttp m) => Token -> m (ChatWorkResponse Rooms)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
