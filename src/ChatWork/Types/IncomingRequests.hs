@@ -1,31 +1,48 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module ChatWork.Types.IncomingRequests
-    ( GetIncomingRequestsResponse
-    , PutIncomingRequestsResponse(..)
+    ( IncomingRequests
+    , IncomingRequest(..)
+    , AcceptedIncomingRequest(..)
     ) where
 
-import ChatWork.Types.Base (IncomingRequest)
 import ChatWork.Utils (strLength)
 import Data.Aeson (ToJSON(..), FromJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Casing (aesonDrop, snakeCase)
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
-type GetIncomingRequestsResponse = [IncomingRequest]
+type IncomingRequests = [IncomingRequest]
 
-data PutIncomingRequestsResponse = IncomingRequestsResponse
-                                 { acceptIncomingRequestAccountId :: Int
-                                 , acceptIncomingRequestRoomId :: Int
-                                 , acceptIncomingRequestName :: Text
-                                 , acceptIncomingRequestChatworkId :: Text
-                                 , acceptIncomingRequestOrganizationId :: Int
-                                 , acceptIncomingRequestOrganizationName :: Text
-                                 , acceptIncomingRequestDepartment :: Text
-                                 , acceptIncomingRequestAvatarImageUrl :: Text
-                                 } deriving (Show, Generic)
+data IncomingRequest = IncomingRequest
+                     { incomingRequestToRequestId :: Int
+                     , incomingRequestToAccountId :: Int
+                     , incomingRequestToMessage :: Text
+                     , incomingRequestToName :: Text
+                     , incomingRequestToChatworkId :: Text
+                     , incomingRequestToOrganizationId :: Int
+                     , incomingRequestToOrganizationName :: Text
+                     , incomingRequestToDepartment :: Text
+                     , incomingRequestToAvatarImageUrl :: Text
+                     } deriving (Show, Generic)
 
-instance ToJSON PutIncomingRequestsResponse where
-  toJSON = genericToJSON $ aesonDrop (strLength "acceptIncomingRequest") snakeCase
-instance FromJSON PutIncomingRequestsResponse where
-  parseJSON = genericParseJSON $ aesonDrop (strLength "acceptIncomingRequest") snakeCase
+instance ToJSON IncomingRequest where
+  toJSON = genericToJSON $ aesonDrop (strLength "incomingRequestTo") snakeCase
+instance FromJSON IncomingRequest where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "incomingRequestTo") snakeCase
+
+data AcceptedIncomingRequest = AcceptedIncomingRequest
+                             { acceptedIncomingRequestToAccountId :: Int
+                             , acceptedIncomingRequestToRoomId :: Int
+                             , acceptedIncomingRequestToName :: Text
+                             , acceptedIncomingRequestToChatworkId :: Text
+                             , acceptedIncomingRequestToOrganizationId :: Int
+                             , acceptedIncomingRequestToOrganizationName :: Text
+                             , acceptedIncomingRequestToDepartment :: Text
+                             , acceptedIncomingRequestToAvatarImageUrl :: Text
+                             } deriving (Show, Generic)
+
+instance ToJSON AcceptedIncomingRequest where
+  toJSON = genericToJSON $ aesonDrop (strLength "acceptedIncomingRequestTo") snakeCase
+instance FromJSON AcceptedIncomingRequest where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "acceptedIncomingRequestTo") snakeCase

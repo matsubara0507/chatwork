@@ -10,13 +10,12 @@ import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), jsonResponse
                         , GET(..), PUT(..), DELETE(..), (/:), (/~))
 import ChatWork.Utils (Token, baseUrl, mkTokenHeader)
 import ChatWork.Internal (req)
-import ChatWork.Types ( ChatWorkResponse
-                      , GetIncomingRequestsResponse, PutIncomingRequestsResponse)
+import ChatWork.Types (ChatWorkResponse, IncomingRequests, AcceptedIncomingRequest)
 
-getIncomingRequests :: (MonadHttp m) => Token -> m (JsonResponse (ChatWorkResponse GetIncomingRequestsResponse))
+getIncomingRequests :: (MonadHttp m) => Token -> m (JsonResponse (ChatWorkResponse IncomingRequests))
 getIncomingRequests = req GET (baseUrl /: "incoming_requests") NoReqBody jsonResponse . mkTokenHeader
 
-putIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse (ChatWorkResponse PutIncomingRequestsResponse))
+putIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse (ChatWorkResponse AcceptedIncomingRequest))
 putIncomingRequests t n = req PUT (baseUrl /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkTokenHeader t
 
 deleteIncomingRequests :: (MonadHttp m) => Token -> Int -> m (JsonResponse (ChatWorkResponse ()))

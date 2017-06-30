@@ -1,20 +1,20 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module ChatWork.Types.Rooms
-    ( GetRoomsResponse
-    , GetRoomResponse(..)
-    , PostRoomResponse
-    , PutRoomResponse
-    , GetRoomMembersResponse
-    , PutRoomMembersResponse
-    , GetRoomMessagesResponse
-    , PostRoomMessageResponse
-    , GetRoomMessageResponse
-    , GetRoomTasksResponse
-    , PostRoomTaskResponse
-    , GetRoomTaskResponse
-    , GetRoomFilesResponse
-    , GetRoomFileResponse
+    ( Rooms
+    , RoomDetail(..)
+    , RoomIdWrap(..)
+    , Members
+    , Member(..)
+    , PermissionMembers(..)
+    , Messages
+    , Message(..)
+    , MessageIdWrap(..)
+    , RoomTasks
+    , RoomTask
+    , TaskIdsWrap(..)
+    , Files
+    , File(..)
 
     , CreateRoomParams(..)
     , UpdateRoomParams(..)
@@ -27,71 +27,134 @@ module ChatWork.Types.Rooms
     , CreateUrlFlag
     ) where
 
-import ChatWork.Types.Base ( Member, Message, RoomTask, File
-                           , IconPreset, TaskStatus
-                           , RoomIdWrap, MessageIdWrap, TaskIdsWrap)
+import ChatWork.Types.Base (Account, IconPreset, TaskStatus)
 import ChatWork.Utils (strLength)
 import Data.Aeson (ToJSON(..), FromJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Casing (aesonDrop, snakeCase)
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
-type GetRoomsResponse = [GetRoomResponse]
+type Rooms = [RoomDetail]
 
-data GetRoomResponse = GetRoomResponse
-                      { getRoomToRoomId :: Int
-                      , getRoomToName :: Text
-                      , getRoomToType :: Text
-                      , getRoomToRole :: Text
-                      , getRoomToSticky :: Bool
-                      , getRoomToUnreadNum :: Int
-                      , getRoomToMentionNum :: Int
-                      , getRoomToMytaskNum :: Int
-                      , getRoomToMessageNum :: Int
-                      , getRoomToFileNum :: Int
-                      , getRoomToTaskNum :: Int
-                      , getRoomToIconPath :: Text
-                      , getRoomToLastUpdateTime :: Int
-                      , getRoomToDescription :: Maybe Text
-                      } deriving (Show, Generic)
+data RoomDetail = RoomDetail
+                { roomDetailToRoomId :: Int
+                , roomDetailToName :: Text
+                , roomDetailToType :: Text
+                , roomDetailToRole :: Text
+                , roomDetailToSticky :: Bool
+                , roomDetailToUnreadNum :: Int
+                , roomDetailToMentionNum :: Int
+                , roomDetailToMytaskNum :: Int
+                , roomDetailToMessageNum :: Int
+                , roomDetailToFileNum :: Int
+                , roomDetailToTaskNum :: Int
+                , roomDetailToIconPath :: Text
+                , roomDetailToLastUpdateTime :: Int
+                , roomDetailToDescription :: Maybe Text
+                } deriving (Show, Generic)
 
-instance ToJSON GetRoomResponse where
-  toJSON = genericToJSON $ aesonDrop (strLength "getRoomTo") snakeCase
-instance FromJSON GetRoomResponse where
-  parseJSON = genericParseJSON $ aesonDrop (strLength "getRoomTo") snakeCase
+instance ToJSON RoomDetail where
+  toJSON = genericToJSON $ aesonDrop (strLength "roomDetailTo") snakeCase
+instance FromJSON RoomDetail where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "roomDetailTo") snakeCase
 
-type PostRoomResponse = RoomIdWrap
+newtype RoomIdWrap = RoomIdWrap { getRoomId :: Int } deriving (Show, Generic)
 
-type PutRoomResponse = RoomIdWrap
+instance ToJSON RoomIdWrap where
+  toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
+instance FromJSON RoomIdWrap where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
 
-type GetRoomMembersResponse = [Member]
+type Members = [Member]
 
-data PutRoomMembersResponse = PutRoomMembersResponse
-                            { roomMembersToAdmin :: [Int]
-                            , roomMembersToMember :: [Int]
-                            , roomMembersToReadonly :: [Int]
-                            } deriving (Show, Generic)
+data Member = Member
+            { memberToAccountId :: Int
+            , memberToRole :: Text
+            , memberToName :: Text
+            , memberToChatworkId :: Text
+            , memberToOrganizationId :: Int
+            , memberToOrganizationName :: Text
+            , memberToDepartment :: Text
+            , memberToAvatarImageUrl :: Text
+            } deriving (Show, Generic)
 
-instance ToJSON PutRoomMembersResponse where
-  toJSON = genericToJSON $ aesonDrop (strLength "roomMembersTo") snakeCase
-instance FromJSON PutRoomMembersResponse where
-  parseJSON = genericParseJSON $ aesonDrop (strLength "roomMembersTo") snakeCase
+instance ToJSON Member where
+  toJSON = genericToJSON $ aesonDrop (strLength "memberTo") snakeCase
+instance FromJSON Member where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "memberTo") snakeCase
 
-type GetRoomMessagesResponse = [Message]
+data PermissionMembers = PermissionMembers
+                 { permissionMembersToAdmin :: [Int]
+                 , permissionMembersToMember :: [Int]
+                 , permissionMembersToReadonly :: [Int]
+                 } deriving (Show, Generic)
 
-type PostRoomMessageResponse = MessageIdWrap
+instance ToJSON PermissionMembers where
+  toJSON = genericToJSON $ aesonDrop (strLength "permissionMembersTo") snakeCase
+instance FromJSON PermissionMembers where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "permissionMembersTo") snakeCase
 
-type GetRoomMessageResponse = Message
+type Messages = [Message]
 
-type GetRoomTasksResponse = [RoomTask]
+data Message = Message
+             { messageToMessageId :: Text
+             , messageToAccount :: Account
+             , messageToBody :: Text
+             , messageToSendTime :: Int
+             , messageToUpdateTime :: Int
+             } deriving (Show, Generic)
 
-type PostRoomTaskResponse = TaskIdsWrap
+instance ToJSON Message where
+  toJSON = genericToJSON $ aesonDrop (strLength "messageTo") snakeCase
+instance FromJSON Message where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "messageTo") snakeCase
 
-type GetRoomTaskResponse = RoomTask
+newtype MessageIdWrap = MessageIdWrap { getMessageId :: Text } deriving (Show, Generic)
 
-type GetRoomFilesResponse = [File]
+instance ToJSON MessageIdWrap where
+  toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
+instance FromJSON MessageIdWrap where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
 
-type GetRoomFileResponse = File
+type RoomTasks = [RoomTask]
+
+data RoomTask = RoomTask
+              { roomTaskToTaskId :: Int
+              , roomTaskToAccount :: Account
+              , roomTaskToAssignedByAccount :: Account
+              , roomTaskToMessageId :: Text
+              , roomTaskToBody :: Text
+              , roomTaskToLimitTime :: Int
+              , roomTaskToStatus :: Text
+              } deriving (Show, Generic)
+
+instance ToJSON RoomTask where
+  toJSON = genericToJSON $ aesonDrop (strLength "roomTaskTo") snakeCase
+instance FromJSON RoomTask where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "roomTaskTo") snakeCase
+
+newtype TaskIdsWrap = TaskIdsWrap { getTaskIds :: [Int] } deriving (Show, Generic)
+
+instance ToJSON TaskIdsWrap where
+  toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
+instance FromJSON TaskIdsWrap where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "get") snakeCase
+
+type Files = [File]
+
+data File = File
+          { fileToFileId :: Int
+          , fileToAccount :: Account
+          , fileToMessageId :: Text
+          , fileToFilename :: Text
+          , fileToFilesize :: Int
+          , fileToUploadTime :: Int
+          } deriving (Show, Generic)
+
+instance ToJSON File where
+  toJSON = genericToJSON $ aesonDrop (strLength "fileTo") snakeCase
+instance FromJSON File where
+  parseJSON = genericParseJSON $ aesonDrop (strLength "fileTo") snakeCase
 
 data CreateRoomParams = CreateRoomParams
                       { cRoomDescription :: Maybe Text
