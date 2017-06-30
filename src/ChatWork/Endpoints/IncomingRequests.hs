@@ -2,8 +2,8 @@
 
 module ChatWork.Endpoints.IncomingRequests
     ( getIncomingRequests
-    , putIncomingRequests
-    , deleteIncomingRequests
+    , acceptIncomingRequests
+    , rejectIncomingRequests
     ) where
 
 import Network.HTTP.Req ( MonadHttp, JsonResponse, NoReqBody(..), jsonResponse
@@ -15,8 +15,8 @@ import ChatWork.Types (ChatWorkResponse, IncomingRequests, AcceptedIncomingReque
 getIncomingRequests :: (MonadHttp m) => Token -> m (ChatWorkResponse IncomingRequests)
 getIncomingRequests = req GET (baseUrl /: "incoming_requests") NoReqBody jsonResponse . mkTokenHeader
 
-putIncomingRequests :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse AcceptedIncomingRequest)
-putIncomingRequests t n = req PUT (baseUrl /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkTokenHeader t
+acceptIncomingRequests :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse AcceptedIncomingRequest)
+acceptIncomingRequests t n = req PUT (baseUrl /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkTokenHeader t
 
-deleteIncomingRequests :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse ())
-deleteIncomingRequests t n = req DELETE (baseUrl /: "incoming_requests" /~ n) NoReqBody jsonResponse $ mkTokenHeader t
+rejectIncomingRequests :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse ())
+rejectIncomingRequests t n = req DELETE (baseUrl /: "incoming_requests" /~ n) NoReqBody jsonResponse $ mkTokenHeader t
