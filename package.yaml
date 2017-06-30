@@ -1,0 +1,48 @@
+name: chatwork
+version: 0.1.0.0
+synopsis: The ChatWork API in Haskell
+description: See README at <https://github.com/matsubara0507/chatwork#readme>
+maintainer: MATSUBARA Nobutada
+author: MATSUBARA Nobutada
+copyright: 2017 MATSUBARA Nobutada
+license: MIT
+github: matsubara0507/chatwork
+category: Web
+
+ghc-options: -Wall
+
+dependencies:
+  - base >= 4.7 && < 5
+  - aeson
+  - aeson-casing
+  - bytestring
+  - connection
+  - data-default-class
+  - http-client
+  - http-client-tls
+  - http-types
+  - req >= 0.3.0
+  - text
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - ChatWork
+    - ChatWork.Endpoints
+    - ChatWork.Endpoints.Me
+    - ChatWork.Endpoints.My
+    - ChatWork.Endpoints.Contacts
+    - ChatWork.Endpoints.Rooms
+    - ChatWork.Endpoints.IncomingRequests
+    - ChatWork.MonadHttpIO
+    - ChatWork.Types
+    - ChatWork.Types.Base
+    - ChatWork.Types.Error
+    - ChatWork.Types.Me
+    - ChatWork.Types.My
+    - ChatWork.Types.Contacts
+    - ChatWork.Types.Rooms
+    - ChatWork.Types.IncomingRequests
+    - ChatWork.Utils
+  other-modules:
+    - ChatWork.Internal

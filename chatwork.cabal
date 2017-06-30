@@ -1,50 +1,60 @@
+-- This file has been generated from package.yaml by hpack version 0.17.0.
+--
+-- see: https://github.com/sol/hpack
+
 name:                chatwork
 version:             0.1.0.0
--- synopsis:
--- description:
+synopsis:            The ChatWork API in Haskell
+description:         See README at <https://github.com/matsubara0507/chatwork#readme>
 homepage:            https://github.com/matsubara0507/chatwork#readme
+bug-reports:         https://github.com/matsubara0507/chatwork/issues
+author:              MATSUBARA Nobutada
+maintainer:          MATSUBARA Nobutada
+copyright:           2017 MATSUBARA Nobutada
 license:             MIT
 license-file:        LICENSE
-author:              MATSUBARA Nobutada
-copyright:           2017 MATSUBARA Nobutada
 category:            Web
 build-type:          Simple
-extra-source-files:  README.md
-cabal-version:       >=1.10
-
-library
-  hs-source-dirs:      src
-  exposed-modules:     ChatWork
-                     , ChatWork.Endpoints
-                     , ChatWork.Endpoints.Me
-                     , ChatWork.Endpoints.My
-                     , ChatWork.Endpoints.Contacts
-                     , ChatWork.Endpoints.Rooms
-                     , ChatWork.Endpoints.IncomingRequests
-                     , ChatWork.MonadHttpIO
-                     , ChatWork.Types
-                     , ChatWork.Types.Base
-                     , ChatWork.Types.Error
-                     , ChatWork.Types.Me
-                     , ChatWork.Types.My
-                     , ChatWork.Types.Contacts
-                     , ChatWork.Types.Rooms
-                     , ChatWork.Types.IncomingRequests
-                     , ChatWork.Utils
-  other-modules:       ChatWork.Internal
-  build-depends:       base >= 4.7 && < 5
-                     , aeson
-                     , aeson-casing
-                     , bytestring
-                     , connection
-                     , data-default-class
-                     , http-client
-                     , http-client-tls
-                     , http-types
-                     , req >= 0.3.0
-                     , text
-  default-language:    Haskell2010
+cabal-version:       >= 1.10
 
 source-repository head
-  type:     git
+  type: git
   location: https://github.com/matsubara0507/chatwork
+
+library
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  exposed-modules:
+      ChatWork
+      ChatWork.Endpoints
+      ChatWork.Endpoints.Me
+      ChatWork.Endpoints.My
+      ChatWork.Endpoints.Contacts
+      ChatWork.Endpoints.Rooms
+      ChatWork.Endpoints.IncomingRequests
+      ChatWork.MonadHttpIO
+      ChatWork.Types
+      ChatWork.Types.Base
+      ChatWork.Types.Error
+      ChatWork.Types.Me
+      ChatWork.Types.My
+      ChatWork.Types.Contacts
+      ChatWork.Types.Rooms
+      ChatWork.Types.IncomingRequests
+      ChatWork.Utils
+  other-modules:
+      ChatWork.Internal
+  build-depends:
+      base >= 4.7 && < 5
+    , aeson
+    , aeson-casing
+    , bytestring
+    , connection
+    , data-default-class
+    , http-client
+    , http-client-tls
+    , http-types
+    , req >= 0.3.0
+    , text
+  default-language: Haskell2010
