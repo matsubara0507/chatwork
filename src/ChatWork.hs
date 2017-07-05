@@ -3,7 +3,7 @@
 --
 
 module ChatWork (
-    -- * Emdpoint function definitions
+    -- * Endpoint function definitions
       module ChatWork.Endpoints
     -- * Response and request param type definitions
     , module ChatWork.Types

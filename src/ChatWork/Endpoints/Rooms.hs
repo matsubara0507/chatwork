@@ -61,9 +61,13 @@ createRoom t params = req POST (baseUrl /: "rooms") (ReqBodyUrlEnc params') json
            <> toReqParam "members_readonly_ids" (cMembersReadonlyIds params)
            <> toReqParam "name" (cRoomName params)
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 getRoom :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse RoomDetail)
 getRoom t n = req GET (baseUrl /: "rooms" /~ n) NoReqBody jsonResponse $ mkTokenHeader t
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 updateRoom :: (MonadHttp m) => Token -> Int -> UpdateRoomParams -> m (ChatWorkResponse RoomIdWrap)
 updateRoom t n params = req PUT (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
@@ -71,20 +75,32 @@ updateRoom t n params = req PUT (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params'
            <> toReqParam "icon_preset" (uIconPreset params)
            <> toReqParam "name" (uRoomName params)
 
+-- |
+-- wrap `deleteRoom'` function, using 'DeleteRoom'.
+-- argumrnt 'Int' is `room_id`.
 deleteRoom :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse ())
 deleteRoom t n = deleteRoom' t n DeleteRoom
 
+-- |
+-- wrap `deleteRoom'` function, using 'LeaveRoom'.
+-- argumrnt 'Int' is `room_id`.
 leaveRoom :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse ())
 leaveRoom t n = deleteRoom' t n LeaveRoom
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 deleteRoom' :: (MonadHttp m) => Token -> Int -> DeleteRoomActionType -> m (ChatWorkResponse ())
 deleteRoom' t n action = req DELETE2 (baseUrl /: "rooms" /~ n) (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
     params' = "action_type" =: show action
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 getMembers :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse Members)
 getMembers t n = req GET (baseUrl /: "rooms" /~ n /: "members") NoReqBody jsonResponse $ mkTokenHeader t
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 updateMembersPermission :: (MonadHttp m) => Token -> Int -> RoomMembersParams -> m (ChatWorkResponse MembersPermission)
 updateMembersPermission t n params = req PUT (baseUrl /: "rooms" /~ n /: "members") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
@@ -92,19 +108,28 @@ updateMembersPermission t n params = req PUT (baseUrl /: "rooms" /~ n /: "member
            <> toReqParam "members_member_ids" (getMemberIds params)
            <> toReqParam "members_readonly_ids" (getReadonlyIds params)
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 getMessages :: (MonadHttp m) => Token -> Int -> Maybe Force -> m (ChatWorkResponse Messages)
 getMessages t n force = req GET (baseUrl /: "rooms" /~ n /: "messages") NoReqBody jsonResponse $ mkTokenHeader t <> params'
   where
     params' = toReqParam "force" (bool 0 (1 :: Int) <$> force)
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 postMessage :: (MonadHttp m) => Token -> Int -> MessageBody -> m (ChatWorkResponse MessageIdWrap)
 postMessage t n body = req POST (baseUrl /: "rooms" /~ n /: "messages") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
     params' = toReqParam "body" body
 
+-- |
+-- argumrnt 'Int' is `room_id`.
+-- argumrnt 'Text' is `message_id`.
 getMessage :: (MonadHttp m) => Token -> Int -> Text -> m (ChatWorkResponse Message)
 getMessage t rid mid = req GET (baseUrl /: "rooms" /~ rid /: "messages" /~ mid) NoReqBody jsonResponse $ mkTokenHeader t
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 getRoomTasks :: (MonadHttp m) => Token -> Int -> GetTasksParams -> m (ChatWorkResponse RoomTasks)
 getRoomTasks t n params = req GET (baseUrl /: "rooms" /~ n /: "tasks") NoReqBody jsonResponse $ mkTokenHeader t <> params'
   where
@@ -112,21 +137,30 @@ getRoomTasks t n params = req GET (baseUrl /: "rooms" /~ n /: "tasks") NoReqBody
            <> toReqParam "assigned_by_account_id" (getTaskAssignedByAccountId params)
            <> toReqParam "status" (getTaskStatus params)
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 createTask :: (MonadHttp m) => Token -> Int -> CreateTaskParams -> m (ChatWorkResponse TaskIdsWrap)
 createTask t n params = req POST (baseUrl /: "rooms" /~ n /: "tasks") (ReqBodyUrlEnc params') jsonResponse $ mkTokenHeader t
   where
     params' = toReqParam "body" (getTaskBody params)
            <> toReqParam "limit" (getTaskLimit params)
            <> toReqParam "to_ids" (getTaskToIds params)
-
+-- |
+-- argumrnt first 'Int' is `room_id`.
+-- argumrnt second 'Int' is `task_id`.
 getRoomTask :: (MonadHttp m) => Token -> Int -> Int -> m (ChatWorkResponse RoomTask)
 getRoomTask t rid tid = req GET (baseUrl /: "rooms" /~ rid /: "tasks" /~ tid) NoReqBody jsonResponse $ mkTokenHeader t
 
+-- |
+-- argumrnt 'Int' is `room_id`.
 getFiles :: (MonadHttp m) => Token -> Int -> Maybe AccountId -> m (ChatWorkResponse Files)
 getFiles t rid aid = req GET (baseUrl /: "rooms" /~ rid /: "files") NoReqBody jsonResponse $ mkTokenHeader t <> params'
   where
     params' = toReqParam "account_id" aid
 
+-- |
+-- argumrnt first 'Int' is `room_id`.
+-- argumrnt second 'Int' is `file_id`.
 getFile :: (MonadHttp m) => Token -> Int -> Int -> Maybe CreateUrlFlag -> m (ChatWorkResponse File)
 getFile t rid fid flag = req GET (baseUrl /: "rooms" /~ rid /: "files" /~ fid) NoReqBody jsonResponse $ mkTokenHeader t <> params'
   where

@@ -1,7 +1,8 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module ChatWork.Types.Rooms
-    ( Rooms
+module ChatWork.Types.Rooms (
+    -- Response Types
+      Rooms
     , RoomDetail(..)
     , RoomIdWrap(..)
     , Members
@@ -15,7 +16,7 @@ module ChatWork.Types.Rooms
     , TaskIdsWrap(..)
     , Files
     , File(..)
-
+    -- Request Parameter Types
     , CreateRoomParams(..)
     , UpdateRoomParams(..)
     , RoomMembersParams(..)
@@ -157,6 +158,8 @@ instance ToJSON File where
 instance FromJSON File where
   parseJSON = genericParseJSON $ aesonDrop (strLength "fileTo") snakeCase
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#POST-rooms>
 data CreateRoomParams = CreateRoomParams
                       { cRoomDescription    :: Maybe Text
                       , cIconPreset         :: Maybe IconPreset
@@ -166,30 +169,40 @@ data CreateRoomParams = CreateRoomParams
                       , cRoomName           :: Text
                       } deriving (Show)
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#PUT-rooms-room_id>
 data UpdateRoomParams = UpdateRoomParams
                       { uRoomDescription :: Maybe Text
                       , uIconPreset      :: Maybe IconPreset
                       , uRoomName        :: Maybe Text
                       } deriving (Show)
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#PUT-rooms-room_id-members>
 data RoomMembersParams = RoomMembersParams
                        { getAdminIds    :: [Int]
                        , getMemberIds   :: Maybe [Int]
                        , getReadonlyIds :: Maybe [Int]
                        } deriving (Show)
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-tasks>
 data GetTasksParams = GetTasksParams
                    { getTaskAccountId           :: Maybe Int
                    , getTaskAssignedByAccountId :: Maybe Int
                    , getTaskStatus              :: Maybe TaskStatus
                    } deriving (Show)
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#POST-rooms-room_id-tasks>
 data CreateTaskParams = CreateTaskParams
                       { getTaskBody  :: Text
                       , getTaskLimit :: Maybe Int
                       , getTaskToIds :: [Int]
                       } deriving (Show)
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#DELETE-rooms-room_id>
 data DeleteRoomActionType = LeaveRoom
                           | DeleteRoom
                           deriving (Eq)
@@ -198,8 +211,14 @@ instance Show DeleteRoomActionType where
   show LeaveRoom  = "leave"
   show DeleteRoom = "delete"
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-messages>
 type Force = Bool
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#POST-rooms-room_id-messages>
 type MessageBody = Text
 
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-files-file_id>
 type CreateUrlFlag = Bool

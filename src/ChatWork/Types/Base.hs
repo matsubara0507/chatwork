@@ -78,10 +78,16 @@ instance Show IconPreset where
   show Sports   = "sports"
   show Travel   = "travel"
 
+-- |
+-- use get tasks on room
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-tasks>
 data TaskStatus = Open | Done
 
 instance Show TaskStatus where
   show Open = "open"
   show Done = "done"
 
+-- |
+-- use get files on room
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-files>
 type AccountId = Int

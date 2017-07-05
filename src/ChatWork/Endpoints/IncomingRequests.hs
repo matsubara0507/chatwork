@@ -20,8 +20,12 @@ import           Network.HTTP.Req  (DELETE (..), GET (..), JsonResponse,
 getIncomingRequests :: (MonadHttp m) => Token -> m (ChatWorkResponse IncomingRequests)
 getIncomingRequests = req GET (baseUrl /: "incoming_requests") NoReqBody jsonResponse . mkTokenHeader
 
+-- |
+-- argument 'Int' is `request_id`
 acceptIncomingRequests :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse AcceptedIncomingRequest)
 acceptIncomingRequests t n = req PUT (baseUrl /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkTokenHeader t
 
+-- |
+-- argument 'Int' is `request_id`
 rejectIncomingRequests :: (MonadHttp m) => Token -> Int -> m (ChatWorkResponse ())
 rejectIncomingRequests t n = req DELETE (baseUrl /: "incoming_requests" /~ n) NoReqBody jsonResponse $ mkTokenHeader t
