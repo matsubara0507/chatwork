@@ -4,9 +4,7 @@
 
 module ChatWork.Utils (
     -- * help to construct endpoint
-      Token
-    , baseUrl
-    , mkTokenHeader
+      mkTokenHeader
     -- * Custamize Managaer
     , getHttpResponse'
     , fixEmptyStringManager
@@ -17,8 +15,8 @@ module ChatWork.Utils (
     , strLength
     ) where
 
+import           ChatWork.Client              (Token)
 import           Control.Monad.IO.Class       (MonadIO (..))
-import           Data.ByteString              (ByteString)
 import           Data.Default.Class           (def)
 import           Data.List                    (lookup)
 import           Data.Maybe                   (fromMaybe)
@@ -33,21 +31,9 @@ import           Network.HTTP.Req             (AllowsBody (..),
                                                CanHaveBody (..),
                                                HttpMethod (..),
                                                HttpResponse (..), MonadHttp,
-                                               Option, Scheme (Https), Url,
-                                               header, https, (/:))
+                                               Option, Scheme (Https),  header)
 import           Network.HTTP.Types           (methodDelete)
 import           Network.HTTP.Types.Header    (hContentLength)
-
--- |
--- ChatWork API Token
--- detail is <http://developer.chatwork.com/ja/authenticate.html>
-type Token = ByteString
-
--- |
--- Base URL for endpoints
--- TODO : change type class function
-baseUrl :: Url 'Https
-baseUrl = https "api.chatwork.com" /: "v2"
 
 -- |
 -- Make HTTP Header to authenticate API Token of ChatWork

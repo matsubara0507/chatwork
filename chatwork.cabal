@@ -27,6 +27,7 @@ library
   ghc-options: -Wall
   exposed-modules:
       ChatWork
+      ChatWork.Client
       ChatWork.Endpoints
       ChatWork.Endpoints.Me
       ChatWork.Endpoints.My

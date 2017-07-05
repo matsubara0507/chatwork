@@ -28,6 +28,7 @@ library:
   source-dirs: src
   exposed-modules:
     - ChatWork
+    - ChatWork.Client
     - ChatWork.Endpoints
     - ChatWork.Endpoints.Me
     - ChatWork.Endpoints.My

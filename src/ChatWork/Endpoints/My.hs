@@ -8,14 +8,15 @@ module ChatWork.Endpoints.My
     , getMyTasks
     ) where
 
+import           ChatWork.Client   (Client (..))
 import           ChatWork.Internal (req)
 import           ChatWork.Types    (ChatWorkResponse, MyStatus, MyTasks)
-import           ChatWork.Utils    (Token, baseUrl, mkTokenHeader)
+import           ChatWork.Utils    (mkTokenHeader)
 import           Network.HTTP.Req  (GET (..), MonadHttp, NoReqBody (..),
                                     jsonResponse, (/:))
 
-getMyStatus :: (MonadHttp m) => Token -> m (ChatWorkResponse MyStatus)
-getMyStatus = req GET (baseUrl /: "my" /: "status") NoReqBody jsonResponse . mkTokenHeader
+getMyStatus :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse MyStatus)
+getMyStatus c = req GET (baseUrl c /: "my" /: "status") NoReqBody jsonResponse . mkTokenHeader $ token c
 
-getMyTasks :: (MonadHttp m) => Token -> m (ChatWorkResponse MyTasks)
-getMyTasks = req GET (baseUrl /: "my" /: "tasks") NoReqBody jsonResponse . mkTokenHeader
+getMyTasks :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse MyTasks)
+getMyTasks c = req GET (baseUrl c /: "my" /: "tasks") NoReqBody jsonResponse . mkTokenHeader $ token c
