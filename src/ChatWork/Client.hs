@@ -15,6 +15,8 @@ type Token = ByteString
 
 newtype ChatWorkClient = ChatWorkClient Token
 
+-- |
+-- By using type class, the same functions can be used for mock servers and local hosts.
 class Client a where
   baseUrl :: a -> Url 'Https
   token :: a -> Token
