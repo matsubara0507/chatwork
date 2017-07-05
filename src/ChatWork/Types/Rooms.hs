@@ -12,7 +12,7 @@ module ChatWork.Types.Rooms (
     , Message(..)
     , MessageIdWrap(..)
     , RoomTasks
-    , RoomTask
+    , RoomTask(..)
     , TaskIdsWrap(..)
     , Files
     , File(..)

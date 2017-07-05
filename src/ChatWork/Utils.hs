@@ -57,7 +57,7 @@ mkTokenHeader token = header "X-ChatWorkToken" token
 -- |
 -- Helper function that use custamized Manager
 getHttpResponse' :: (HttpResponse a, MonadHttp m) => Proxy a -> Request -> Manager -> m a
-getHttpResponse' Proxy r m = liftIO $ getHttpResponse r =<< fixEmptyStringManager
+getHttpResponse' Proxy r _ = liftIO $ getHttpResponse r =<< fixEmptyStringManager
 
 fixEmptyStringManager :: IO Manager
 fixEmptyStringManager = do

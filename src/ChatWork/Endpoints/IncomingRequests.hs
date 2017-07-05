@@ -13,9 +13,9 @@ import           ChatWork.Internal (req)
 import           ChatWork.Types    (AcceptedIncomingRequest, ChatWorkResponse,
                                     IncomingRequests)
 import           ChatWork.Utils    (Token, baseUrl, mkTokenHeader)
-import           Network.HTTP.Req  (DELETE (..), GET (..), JsonResponse,
-                                    MonadHttp, NoReqBody (..), PUT (..),
-                                    jsonResponse, (/:), (/~))
+import           Network.HTTP.Req  (DELETE (..), GET (..), MonadHttp,
+                                    NoReqBody (..), PUT (..), jsonResponse,
+                                    (/:), (/~))
 
 getIncomingRequests :: (MonadHttp m) => Token -> m (ChatWorkResponse IncomingRequests)
 getIncomingRequests = req GET (baseUrl /: "incoming_requests") NoReqBody jsonResponse . mkTokenHeader

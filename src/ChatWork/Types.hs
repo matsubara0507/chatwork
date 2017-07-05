@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TypeSynonymInstances #-}
@@ -6,7 +5,7 @@
 
 module ChatWork.Types (
     -- * type synonym of Response Json
-      ChatWorkResponse(..)
+      ChatWorkResponse
     -- * Helper type class for constructing Request paramater
     , ToReqParam(..)
 
@@ -25,10 +24,9 @@ import           ChatWork.Types.Base             (IconPreset, TaskStatus)
 import           ChatWork.Types.Error            (ChatWorkErrors)
 
 import           Control.Applicative             ((<|>))
-import           Data.Aeson                      (FromJSON (..), Value (..))
+import           Data.Aeson                      (FromJSON (..))
 import           Data.Monoid                     (Monoid)
 import           Data.Text                       (Text, pack)
-import           GHC.Generics
 import           Network.HTTP.Req                (JsonResponse, QueryParam,
                                                   (=:))
 

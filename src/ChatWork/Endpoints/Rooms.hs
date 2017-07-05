@@ -43,10 +43,9 @@ import           ChatWork.Utils    (DELETE2 (..), Token, baseUrl, mkTokenHeader)
 import           Data.Bool         (bool)
 import           Data.Monoid       ((<>))
 import           Data.Text         (Text)
-import           Network.HTTP.Req  (DELETE (..), GET (..), JsonResponse,
-                                    MonadHttp, NoReqBody (..), POST (..),
-                                    PUT (..), ReqBodyUrlEnc (..), jsonResponse,
-                                    (/:), (/~), (=:))
+import           Network.HTTP.Req  (GET (..), MonadHttp, NoReqBody (..),
+                                    POST (..), PUT (..), ReqBodyUrlEnc (..),
+                                    jsonResponse, (/:), (/~), (=:))
 
 getRooms :: (MonadHttp m) => Token -> m (ChatWorkResponse Rooms)
 getRooms = req GET (baseUrl /: "rooms") NoReqBody jsonResponse . mkTokenHeader
