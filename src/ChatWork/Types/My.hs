@@ -21,7 +21,7 @@ data MyStatus = MyStatus
               , myStatusToUnreadNum      :: Int
               , myStatusToMentionNum     :: Int
               , myStatusToMytaskNum      :: Int
-              } deriving (Show, Generic)
+              } deriving (Eq, Show, Generic)
 
 instance ToJSON MyStatus where
   toJSON = genericToJSON $ aesonDrop (strLength "myStatusTo") snakeCase
@@ -38,7 +38,7 @@ data MyTask = MyTask
           , myTaskToBody              :: Text
           , myTaskToLimitTime         :: Int
           , myTaskToStatus            :: Text
-          } deriving (Show, Generic)
+          } deriving (Eq, Show, Generic)
 
 instance ToJSON MyTask where
   toJSON = genericToJSON $ aesonDrop (strLength "myTaskTo") snakeCase

@@ -17,7 +17,7 @@ import           GHC.Generics      (Generic)
 --
 -- see : http://developer.chatwork.com/ja/endpoints.html
 
-newtype ChatWorkErrors = ChatWorkErrors { getErrors :: [Text] } deriving (Show, Generic)
+newtype ChatWorkErrors = ChatWorkErrors { getErrors :: [Text] } deriving (Eq, Show, Generic)
 
 instance ToJSON ChatWorkErrors where
   toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase

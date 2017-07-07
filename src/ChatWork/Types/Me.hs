@@ -30,7 +30,7 @@ data Me = Me
          , meToFacebook         :: Text
          , meToTwitter          :: Text
          , meToAvatarImageUrl   :: Text
-         } deriving (Show, Generic)
+         } deriving (Eq, Show, Generic)
 
 instance ToJSON Me where
   toJSON = genericToJSON $ aesonDrop (strLength "meTo") snakeCase

@@ -53,14 +53,14 @@ data RoomDetail = RoomDetail
                 , roomDetailToIconPath       :: Text
                 , roomDetailToLastUpdateTime :: Int
                 , roomDetailToDescription    :: Maybe Text
-                } deriving (Show, Generic)
+                } deriving (Eq, Show, Generic)
 
 instance ToJSON RoomDetail where
   toJSON = genericToJSON $ aesonDrop (strLength "roomDetailTo") snakeCase
 instance FromJSON RoomDetail where
   parseJSON = genericParseJSON $ aesonDrop (strLength "roomDetailTo") snakeCase
 
-newtype RoomIdWrap = RoomIdWrap { getRoomId :: Int } deriving (Show, Generic)
+newtype RoomIdWrap = RoomIdWrap { getRoomId :: Int } deriving (Eq, Show, Generic)
 
 instance ToJSON RoomIdWrap where
   toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
@@ -78,7 +78,7 @@ data Member = Member
             , memberToOrganizationName :: Text
             , memberToDepartment       :: Text
             , memberToAvatarImageUrl   :: Text
-            } deriving (Show, Generic)
+            } deriving (Eq, Show, Generic)
 
 instance ToJSON Member where
   toJSON = genericToJSON $ aesonDrop (strLength "memberTo") snakeCase
@@ -89,7 +89,7 @@ data MembersPermission = MembersPermission
                  { membersPermissionToAdmin    :: [Int]
                  , membersPermissionToMember   :: [Int]
                  , membersPermissionToReadonly :: [Int]
-                 } deriving (Show, Generic)
+                 } deriving (Eq, Show, Generic)
 
 instance ToJSON MembersPermission where
   toJSON = genericToJSON $ aesonDrop (strLength "membersPermissionTo") snakeCase
@@ -104,14 +104,14 @@ data Message = Message
              , messageToBody       :: Text
              , messageToSendTime   :: Int
              , messageToUpdateTime :: Int
-             } deriving (Show, Generic)
+             } deriving (Eq, Show, Generic)
 
 instance ToJSON Message where
   toJSON = genericToJSON $ aesonDrop (strLength "messageTo") snakeCase
 instance FromJSON Message where
   parseJSON = genericParseJSON $ aesonDrop (strLength "messageTo") snakeCase
 
-newtype MessageIdWrap = MessageIdWrap { getMessageId :: Text } deriving (Show, Generic)
+newtype MessageIdWrap = MessageIdWrap { getMessageId :: Text } deriving (Eq, Show, Generic)
 
 instance ToJSON MessageIdWrap where
   toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
@@ -128,14 +128,14 @@ data RoomTask = RoomTask
               , roomTaskToBody              :: Text
               , roomTaskToLimitTime         :: Int
               , roomTaskToStatus            :: Text
-              } deriving (Show, Generic)
+              } deriving (Eq, Show, Generic)
 
 instance ToJSON RoomTask where
   toJSON = genericToJSON $ aesonDrop (strLength "roomTaskTo") snakeCase
 instance FromJSON RoomTask where
   parseJSON = genericParseJSON $ aesonDrop (strLength "roomTaskTo") snakeCase
 
-newtype TaskIdsWrap = TaskIdsWrap { getTaskIds :: [Int] } deriving (Show, Generic)
+newtype TaskIdsWrap = TaskIdsWrap { getTaskIds :: [Int] } deriving (Eq, Show, Generic)
 
 instance ToJSON TaskIdsWrap where
   toJSON = genericToJSON $ aesonDrop (strLength "get") snakeCase
@@ -151,7 +151,7 @@ data File = File
           , fileToFilename   :: Text
           , fileToFilesize   :: Int
           , fileToUploadTime :: Int
-          } deriving (Show, Generic)
+          } deriving (Eq, Show, Generic)
 
 instance ToJSON File where
   toJSON = genericToJSON $ aesonDrop (strLength "fileTo") snakeCase

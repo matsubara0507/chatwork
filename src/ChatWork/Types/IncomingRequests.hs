@@ -25,7 +25,7 @@ data IncomingRequest = IncomingRequest
                      , incomingRequestToOrganizationName :: Text
                      , incomingRequestToDepartment       :: Text
                      , incomingRequestToAvatarImageUrl   :: Text
-                     } deriving (Show, Generic)
+                     } deriving (Eq, Show, Generic)
 
 instance ToJSON IncomingRequest where
   toJSON = genericToJSON $ aesonDrop (strLength "incomingRequestTo") snakeCase
@@ -41,7 +41,7 @@ data AcceptedIncomingRequest = AcceptedIncomingRequest
                              , acceptedIncomingRequestToOrganizationName :: Text
                              , acceptedIncomingRequestToDepartment       :: Text
                              , acceptedIncomingRequestToAvatarImageUrl   :: Text
-                             } deriving (Show, Generic)
+                             } deriving (Eq, Show, Generic)
 
 instance ToJSON AcceptedIncomingRequest where
   toJSON = genericToJSON $ aesonDrop (strLength "acceptedIncomingRequestTo") snakeCase

@@ -23,7 +23,7 @@ data Contact = Contact
              , contactToOrganizationName :: Text
              , contactToDepartment       :: Text
              , contactToAvatarImageUrl   :: Text
-             } deriving (Show, Generic)
+             } deriving (Eq, Show, Generic)
 
 instance ToJSON Contact where
   toJSON = genericToJSON $ aesonDrop (strLength "contactTo") snakeCase

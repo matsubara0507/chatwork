@@ -19,7 +19,7 @@ data Room = Room
           { roomToRoomId   :: Int
           , roomToName     :: Text
           , roomToIconPath :: Text
-          } deriving (Show, Generic)
+          } deriving (Eq, Show, Generic)
 
 instance ToJSON Room where
   toJSON = genericToJSON $ aesonDrop (strLength "roomTo") snakeCase
@@ -30,7 +30,7 @@ data Account = Account
              { accountToAccountId      :: Int
              , accountToName           :: Text
              , accountToAvatarImageUrl :: Text
-             } deriving (Show, Generic)
+             } deriving (Eq, Show, Generic)
 
 instance ToJSON Account where
   toJSON = genericToJSON $ aesonDrop (strLength "accountTo") snakeCase
