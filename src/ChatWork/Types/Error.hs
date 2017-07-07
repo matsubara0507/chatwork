@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module ChatWork.Types.Error
-    ( ChatWorkErrors
+    ( ChatWorkErrors(..)
     ) where
 
 import           ChatWork.Utils    (strLength)
