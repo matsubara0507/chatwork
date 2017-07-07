@@ -47,3 +47,14 @@ library:
     - ChatWork.Utils
   other-modules:
     - ChatWork.Internal
+
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs:
+      - test
+      - src
+    dependencies:
+      - servant-server
+      - warp
+      - hspec
