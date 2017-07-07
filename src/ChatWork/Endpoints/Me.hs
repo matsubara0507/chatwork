@@ -10,9 +10,8 @@ module ChatWork.Endpoints.Me
 import           ChatWork.Client   (Client (..))
 import           ChatWork.Internal (req)
 import           ChatWork.Types    (ChatWorkResponse, Me)
-import           ChatWork.Utils    (mkTokenHeader)
 import           Network.HTTP.Req  (GET (..), MonadHttp, NoReqBody (..),
                                     jsonResponse, (/:))
 
 getMe :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse Me)
-getMe c = req GET (baseUrl c /: "me") NoReqBody jsonResponse . mkTokenHeader $ token c
+getMe c = req GET (baseUrl c /: "me") NoReqBody jsonResponse $ mkHeader c

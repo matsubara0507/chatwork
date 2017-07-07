@@ -1,5 +1,7 @@
-{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE KindSignatures    #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies      #-}
 
 module ChatWork.Client (
       Token
@@ -8,7 +10,8 @@ module ChatWork.Client (
     ) where
 
 import           Data.ByteString  (ByteString)
-import           Network.HTTP.Req (Scheme (Https), Url, https, (/:))
+import           Network.HTTP.Req (Option, Scheme (Https), Url, header, https,
+                                   (/:))
 
 
 type Token = ByteString
@@ -18,9 +21,11 @@ newtype ChatWorkClient = ChatWorkClient Token
 -- |
 -- By using type class, the same functions can be used for mock servers and local hosts.
 class Client a where
-  baseUrl :: a -> Url 'Https
-  token :: a -> Token
+  type ClientScheme a :: Scheme
+  baseUrl :: a -> Url (ClientScheme a)
+  mkHeader :: a -> Option scheme
 
 instance Client ChatWorkClient where
+  type ClientScheme ChatWorkClient = 'Https
   baseUrl = const (https "api.chatwork.com" /: "v2")
-  token (ChatWorkClient t) = t
+  mkHeader (ChatWorkClient token) = header "X-ChatWorkToken" token

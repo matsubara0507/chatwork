@@ -3,10 +3,8 @@
 {-# LANGUAGE TypeFamilies      #-}
 
 module ChatWork.Utils (
-    -- * help to construct endpoint
-      mkTokenHeader
     -- * Custamize Managaer
-    , getHttpResponse'
+      getHttpResponse'
     , fixEmptyStringManager
     , fixEmptyString
     -- * DELETE HTTP method with paramater
@@ -15,7 +13,6 @@ module ChatWork.Utils (
     , strLength
     ) where
 
-import           ChatWork.Client              (Token)
 import           Control.Monad.IO.Class       (MonadIO (..))
 import           Data.Default.Class           (def)
 import           Data.List                    (lookup)
@@ -30,15 +27,9 @@ import           Network.HTTP.Client.TLS      (mkManagerSettingsContext)
 import           Network.HTTP.Req             (AllowsBody (..),
                                                CanHaveBody (..),
                                                HttpMethod (..),
-                                               HttpResponse (..), MonadHttp,
-                                               Option, Scheme (Https),  header)
+                                               HttpResponse (..), MonadHttp)
 import           Network.HTTP.Types           (methodDelete)
 import           Network.HTTP.Types.Header    (hContentLength)
-
--- |
--- Make HTTP Header to authenticate API Token of ChatWork
-mkTokenHeader :: Token -> Option 'Https
-mkTokenHeader token = header "X-ChatWorkToken" token
 
 -- |
 -- Helper function that use custamized Manager
