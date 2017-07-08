@@ -4,7 +4,7 @@ module ChatWork.Types.Base
     ( Room(..)
     , Account(..)
     , IconPreset(..)
-    , TaskStatus
+    , TaskStatus (..)
     , AccountId
     ) where
 
