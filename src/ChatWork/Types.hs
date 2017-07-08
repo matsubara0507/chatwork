@@ -54,7 +54,7 @@ instance ToReqParam a => ToReqParam (Maybe a) where
   toReqParam = maybe mempty . toReqParam
 
 instance Show a => ToReqParam [a] where
-  toReqParam name = toReqParam name . foldl (\acc a -> mconcat [acc, ",", pack $ show a]) ""
+  toReqParam name = toReqParam name . foldl1 (\acc txt -> mconcat [acc, ",", txt]) . fmap (pack . show)
 
 instance ToReqParam IconPreset where
   toReqParam name = toReqParam name . pack . show
