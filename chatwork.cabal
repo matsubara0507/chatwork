@@ -53,6 +53,7 @@ library
     , bytestring
     , connection
     , data-default-class
+    , http-api-data
     , http-client
     , http-client-tls
     , http-types
@@ -74,6 +75,7 @@ test-suite spec
     , bytestring
     , connection
     , data-default-class
+    , http-api-data
     , http-client
     , http-client-tls
     , http-types

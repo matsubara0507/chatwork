@@ -1,4 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 
 module ChatWork.Types.Base
     ( Room(..)
@@ -12,8 +15,10 @@ import           ChatWork.Utils    (strLength)
 import           Data.Aeson        (FromJSON (..), ToJSON (..),
                                     genericParseJSON, genericToJSON)
 import           Data.Aeson.Casing (aesonDrop, snakeCase)
-import           Data.Text         (Text)
+import           Data.Either       (partitionEithers)
+import           Data.Text         (Text, pack, split)
 import           GHC.Generics      (Generic)
+import           Web.HttpApiData
 
 data Room = Room
           { roomToRoomId   :: Int
@@ -57,7 +62,7 @@ data IconPreset = Group
                 | Music
                 | Sports
                 | Travel
-                deriving (Eq)
+                deriving (Bounded, Enum, Eq)
 
 instance Show IconPreset where
   show Group    = "group"
@@ -78,16 +83,33 @@ instance Show IconPreset where
   show Sports   = "sports"
   show Travel   = "travel"
 
+instance ToHttpApiData IconPreset where
+  toUrlPiece = pack . show
+
+instance FromHttpApiData IconPreset where
+  parseUrlPiece = parseBoundedUrlPiece
+
 -- |
 -- use get tasks on room
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-tasks>
-data TaskStatus = Open | Done
+data TaskStatus = Open | Done deriving (Bounded, Enum, Eq)
 
 instance Show TaskStatus where
   show Open = "open"
   show Done = "done"
 
+instance ToHttpApiData TaskStatus where
+  toUrlPiece = pack . show
+
+instance FromHttpApiData TaskStatus where
+  parseUrlPiece = parseBoundedUrlPiece
+
 -- |
 -- use get files on room
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-files>
 type AccountId = Int
+
+instance (FromHttpApiData a) => FromHttpApiData [a] where
+  parseUrlPiece txt = if null es then Right xs else Left "abc"
+    where
+      (es, xs) = partitionEithers . fmap parseUrlPiece $ split (== ',') txt

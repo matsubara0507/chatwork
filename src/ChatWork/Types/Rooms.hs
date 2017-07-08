@@ -1,4 +1,5 @@
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric     #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module ChatWork.Types.Rooms (
     -- Response Types
@@ -28,13 +29,15 @@ module ChatWork.Types.Rooms (
     , CreateUrlFlag
     ) where
 
-import           ChatWork.Types.Base (Account, IconPreset, TaskStatus)
-import           ChatWork.Utils      (strLength)
-import           Data.Aeson          (FromJSON (..), ToJSON (..),
-                                      genericParseJSON, genericToJSON)
-import           Data.Aeson.Casing   (aesonDrop, snakeCase)
-import           Data.Text           (Text)
-import           GHC.Generics        (Generic)
+import           ChatWork.Types.Base         (Account, IconPreset, TaskStatus)
+import           ChatWork.Utils              (strLength)
+import           Data.Aeson                  (FromJSON (..), ToJSON (..),
+                                              genericParseJSON, genericToJSON)
+import           Data.Aeson.Casing           (aesonDrop, snakeCase)
+import           Data.Text                   (Text, pack)
+import           GHC.Generics                (Generic)
+import           Web.FormUrlEncoded
+import           Web.HttpApiData
 
 type Rooms = [RoomDetail]
 
@@ -169,6 +172,15 @@ data CreateRoomParams = CreateRoomParams
                       , cRoomName           :: Text
                       } deriving (Show)
 
+instance FromForm CreateRoomParams where
+  fromForm f = CreateRoomParams
+           <$> parseMaybe "description" f
+           <*> parseMaybe "icon_preset" f
+           <*> parseUnique "members_admin_ids" f
+           <*> parseMaybe "members_member_ids" f
+           <*> parseMaybe "members_readonly_ids" f
+           <*> parseUnique "name" f
+
 -- |
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#PUT-rooms-room_id>
 data UpdateRoomParams = UpdateRoomParams
@@ -177,6 +189,12 @@ data UpdateRoomParams = UpdateRoomParams
                       , uRoomName        :: Maybe Text
                       } deriving (Show)
 
+instance FromForm UpdateRoomParams where
+  fromForm f = UpdateRoomParams
+           <$> parseMaybe "description" f
+           <*> parseMaybe "icon_preset" f
+           <*> parseMaybe "name" f
+
 -- |
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#PUT-rooms-room_id-members>
 data RoomMembersParams = RoomMembersParams
@@ -184,6 +202,12 @@ data RoomMembersParams = RoomMembersParams
                        , getMemberIds   :: Maybe [Int]
                        , getReadonlyIds :: Maybe [Int]
                        } deriving (Show)
+
+instance FromForm RoomMembersParams where
+  fromForm f = RoomMembersParams
+           <$> parseUnique "members_admin_ids" f
+           <*> parseMaybe "members_member_ids" f
+           <*> parseMaybe "members_readonly_ids" f
 
 -- |
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-tasks>
@@ -201,15 +225,30 @@ data CreateTaskParams = CreateTaskParams
                       , getTaskToIds :: [Int]
                       } deriving (Show)
 
+instance FromForm CreateTaskParams where
+  fromForm f = CreateTaskParams
+           <$> parseUnique "body" f
+           <*> parseMaybe "limit" f
+           <*> parseUnique "to_ids" f
+
 -- |
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#DELETE-rooms-room_id>
 data DeleteRoomActionType = LeaveRoom
                           | DeleteRoom
-                          deriving (Eq)
+                          deriving (Bounded, Enum, Eq)
 
 instance Show DeleteRoomActionType where
   show LeaveRoom  = "leave"
   show DeleteRoom = "delete"
+
+instance FromForm DeleteRoomActionType where
+  fromForm f = parseUnique "action_type" f
+
+instance ToHttpApiData DeleteRoomActionType where
+  toUrlPiece = pack . show
+
+instance FromHttpApiData DeleteRoomActionType where
+  parseUrlPiece = parseBoundedUrlPiece
 
 -- |
 -- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-messages>
