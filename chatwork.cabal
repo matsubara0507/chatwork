@@ -86,11 +86,13 @@ test-suite spec
     , hspec
   other-modules:
       ChatWork.Test.Client
+      ChatWork.Test.Types
       ChatWork.Test.Values
       ChatWork.Test.Values.Contacts
       ChatWork.Test.Values.IncomingRequests
       ChatWork.Test.Values.Me
       ChatWork.Test.Values.My
+      ChatWork.Test.Values.Rooms
       MockServer
       ChatWork
       ChatWork.Client
