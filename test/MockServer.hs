@@ -22,7 +22,10 @@ type ChatWorkHeader a = Headers '[Header "Content-Length" Int64] a
 
 type API = "me" :> Get '[JSON] (ChatWorkHeader Me)
       :<|> "my" :> "status" :> Get '[JSON] (ChatWorkHeader MyStatus)
-      :<|> "my" :> "tasks" :> Get '[JSON] (ChatWorkHeader MyTasks)
+      :<|> "my" :> "tasks"
+             :> QueryParam "assigned_by_account_id" (Maybe AccountId)
+             :> QueryParam "status" (Maybe TaskStatus)
+             :> Get '[JSON] (ChatWorkHeader MyTasks)
       :<|> "contacts" :> Get '[JSON] (ChatWorkHeader Contacts)
       :<|> "incoming_requests" :> Get '[JSON] (ChatWorkHeader IncomingRequests)
       :<|> "incoming_requests" :> Capture "request_id" Int
@@ -86,7 +89,7 @@ server = getMe :<|> getMyStatus :<|> getMyTasks :<|> getContacts
   where
     getMe = return $ addHeader (LBS.length $ encode me) me
     getMyStatus = return $ addHeader (LBS.length $ encode myStatus) myStatus
-    getMyTasks = return $ addHeader (LBS.length $ encode myTasks) myTasks
+    getMyTasks _ _ = return $ addHeader (LBS.length $ encode myTasks) myTasks
     getContacts = return $ addHeader (LBS.length $ encode contacts) contacts
     getIncomingRequests = return $ addHeader (LBS.length $ encode incomingRequests) incomingRequests
     acceptIncomingRequest _ = return $ addHeader (LBS.length $ encode acceptedIncomingRequest) acceptedIncomingRequest
