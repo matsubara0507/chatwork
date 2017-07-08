@@ -5,8 +5,8 @@
 
 module ChatWork.Endpoints.IncomingRequests
     ( getIncomingRequests
-    , acceptIncomingRequests
-    , rejectIncomingRequests
+    , acceptIncomingRequest
+    , rejectIncomingRequest
     ) where
 
 import           ChatWork.Client   (Client (..))
@@ -22,10 +22,10 @@ getIncomingRequests c = req GET (baseUrl c /: "incoming_requests") NoReqBody jso
 
 -- |
 -- argument 'Int' is `request_id`
-acceptIncomingRequests :: (MonadHttp m, Client c) => c -> Int -> m (ChatWorkResponse AcceptedIncomingRequest)
-acceptIncomingRequests c n = req PUT (baseUrl c /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkHeader c
+acceptIncomingRequest :: (MonadHttp m, Client c) => c -> Int -> m (ChatWorkResponse AcceptedIncomingRequest)
+acceptIncomingRequest c n = req PUT (baseUrl c /: "incoming_requests" /~ n ) NoReqBody jsonResponse $ mkHeader c
 
 -- |
 -- argument 'Int' is `request_id`
-rejectIncomingRequests :: (MonadHttp m, Client c) => c -> Int -> m (ChatWorkResponse ())
-rejectIncomingRequests c n = req DELETE (baseUrl c /: "incoming_requests" /~ n) NoReqBody jsonResponse $ mkHeader c
+rejectIncomingRequest :: (MonadHttp m, Client c) => c -> Int -> m (ChatWorkResponse ())
+rejectIncomingRequest c n = req DELETE (baseUrl c /: "incoming_requests" /~ n) NoReqBody jsonResponse $ mkHeader c

@@ -28,10 +28,10 @@ main = hspec . around_ runMockServer $ do
         (responseBody <$> getIncomingRequests TestClient) `shouldReturn` Right incomingRequests
     describe "endpoint GET /incoming_requests/{request_id}" $ do
       it "correct responce" $ do
-        (responseBody <$> acceptIncomingRequests TestClient 123) `shouldReturn` Right acceptedIncomingRequest
+        (responseBody <$> acceptIncomingRequest TestClient 123) `shouldReturn` Right acceptedIncomingRequest
     describe "endpoint DELETE /incoming_requests/{request_id}" $ do
       it "correct responce" $ do
-        (responseBody <$> rejectIncomingRequests TestClient 123) `shouldReturn` Right ()
+        (responseBody <$> rejectIncomingRequest TestClient 123) `shouldReturn` Right ()
     describe "endpoint GET /rooms" $ do
       it "correct responce" $ do
         (responseBody <$> getRooms TestClient) `shouldReturn` Right rooms
