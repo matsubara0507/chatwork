@@ -89,7 +89,7 @@ spec = around_ runMockServer $ do
     context "correct responce" $ do
       it "should return Right files response body" $ do
         (responseBody <$> getFiles TestClient 123 (Just 101)) `shouldReturn` Right files
-  describe "getfile: endpoint GET /rooms/{room_id}/files/{files_id}?..." $ do
+  describe "getFile: endpoint GET /rooms/{room_id}/files/{files_id}?..." $ do
     context "correct responce" $ do
       it "should return Right file response body" $ do
         (responseBody <$> getFile TestClient 123 3 (Just True)) `shouldReturn` Right file
