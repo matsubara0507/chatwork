@@ -49,6 +49,13 @@ library:
   other-modules:
     - ChatWork.Internal
 
+executables:
+  sample-exe:
+    source-dirs: sample
+    main: Main.hs
+    dependencies:
+      - chatwork 
+
 tests:
   spec:
     main: Spec.hs
