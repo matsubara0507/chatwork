@@ -85,7 +85,13 @@ test-suite spec
     , warp
     , hspec
   other-modules:
+      ChatWork.Endpoints.ContactsSpec
+      ChatWork.Endpoints.IncomingRequestsSpec
+      ChatWork.Endpoints.MeSpec
+      ChatWork.Endpoints.MySpec
+      ChatWork.Endpoints.RoomsSpec
       ChatWork.Test.Client
+      ChatWork.Test.MockServer
       ChatWork.Test.Types
       ChatWork.Test.Values
       ChatWork.Test.Values.Contacts
@@ -93,7 +99,6 @@ test-suite spec
       ChatWork.Test.Values.Me
       ChatWork.Test.Values.My
       ChatWork.Test.Values.Rooms
-      MockServer
       ChatWork
       ChatWork.Client
       ChatWork.Endpoints

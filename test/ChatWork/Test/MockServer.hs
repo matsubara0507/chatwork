@@ -5,13 +5,16 @@
 
 {-# OPTIONS_GHC -fno-warn-unused-binds #-}
 
-module MockServer
+module ChatWork.Test.MockServer
     ( mockServer
+    , runMockServer
     ) where
 
 import           ChatWork.Test.Types
 import           ChatWork.Test.Values
 import           ChatWork.Types
+import           Control.Concurrent
+import           Control.Exception
 import           Data.Aeson
 import qualified Data.ByteString.Lazy     as LBS (length)
 import           Data.Int                 (Int64)
@@ -112,3 +115,8 @@ server = getMe :<|> getMyStatus :<|> getMyTasks :<|> getContacts
 
 mockServer :: IO ()
 mockServer = run 8000 (serve api server)
+
+runMockServer :: IO () -> IO ()
+runMockServer action = do
+  tid <- forkIO mockServer
+  action `finally` killThread tid
