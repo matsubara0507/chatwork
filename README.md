@@ -1,5 +1,8 @@
 # chatwork
 
+[![Hackage](https://img.shields.io/hackage/v/chatwork.svg?style=flat)](https://hackage.haskell.org/package/chatwork)
+[![Build Status](https://travis-ci.org/matsubara0507/chatwork.svg?branch=master)](https://travis-ci.org/matsubara0507/chatwork)
+
 The ChatWork API for Haskell.
 
 ## example
