@@ -26,8 +26,8 @@ type ChatWorkHeader a = Headers '[Header "Content-Length" Int64] a
 type API = "me" :> Get '[JSON] (ChatWorkHeader Me)
       :<|> "my" :> "status" :> Get '[JSON] (ChatWorkHeader MyStatus)
       :<|> "my" :> "tasks"
-             :> QueryParam "assigned_by_account_id" (Maybe AccountId)
-             :> QueryParam "status" (Maybe TaskStatus)
+             :> QueryParam "assigned_by_account_id" AccountId
+             :> QueryParam "status" TaskStatus
              :> Get '[JSON] (ChatWorkHeader MyTasks)
       :<|> "contacts" :> Get '[JSON] (ChatWorkHeader Contacts)
       :<|> "incoming_requests" :> Get '[JSON] (ChatWorkHeader IncomingRequests)
@@ -52,7 +52,7 @@ type API = "me" :> Get '[JSON] (ChatWorkHeader Me)
              :> ReqBody '[FormUrlEncoded] RoomMembersParams
              :> Put '[JSON] (ChatWorkHeader MembersPermission)
       :<|> "rooms" :> Capture "room_id" Int :> "messages"
-             :> QueryParam "force" (Maybe Bool)
+             :> QueryParam "force" Int
              :> Get '[JSON] (ChatWorkHeader Messages)
       :<|> "rooms" :> Capture "room_id" Int :> "messages"
              :> ReqBody '[FormUrlEncoded] MessageParams
@@ -61,9 +61,9 @@ type API = "me" :> Get '[JSON] (ChatWorkHeader Me)
              :> Capture "message_id" Int
              :> Get '[JSON] (ChatWorkHeader Message)
       :<|> "rooms" :> Capture "room_id" Int :> "tasks"
-             :> QueryParam "account_id" (Maybe AccountId)
-             :> QueryParam "assigned_by_account_id" (Maybe AccountId)
-             :> QueryParam "status" (Maybe TaskStatus)
+             :> QueryParam "account_id" AccountId
+             :> QueryParam "assigned_by_account_id" AccountId
+             :> QueryParam "status" TaskStatus
              :> Get '[JSON] (ChatWorkHeader RoomTasks)
       :<|> "rooms" :> Capture "room_id" Int :> "tasks"
              :> ReqBody '[FormUrlEncoded] CreateTaskParams
@@ -72,11 +72,11 @@ type API = "me" :> Get '[JSON] (ChatWorkHeader Me)
              :> Capture "task_id" Int
              :> Get '[JSON] (ChatWorkHeader RoomTask)
       :<|> "rooms" :> Capture "room_id" Int :> "files"
-             :> QueryParam "account_id" (Maybe AccountId)
+             :> QueryParam "account_id" AccountId
              :> Get '[JSON] (ChatWorkHeader Files)
       :<|> "rooms" :> Capture "room_id" Int :> "files"
              :> Capture "file_id" Int
-             :> QueryParam "create_download_url" (Maybe Bool)
+             :> QueryParam "create_download_url" Int
              :> Get '[JSON] (ChatWorkHeader File)
 
 api :: Proxy API
