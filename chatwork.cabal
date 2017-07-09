@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:                chatwork
-version:             0.1.0.0
+version:             0.1.1.0
 synopsis:            The ChatWork API in Haskell
 description:         See README at <https://github.com/matsubara0507/chatwork#readme>
 homepage:            https://github.com/matsubara0507/chatwork#readme
