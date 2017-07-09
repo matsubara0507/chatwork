@@ -123,3 +123,8 @@ script:
       ;;
   esac
   set +ex
+
+deploy:
+  provider: hackage
+  username: matsubara0507
+  password: $HACKAGE_PASS
