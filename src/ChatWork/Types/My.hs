@@ -47,7 +47,7 @@ instance FromJSON MyTask where
   parseJSON = genericParseJSON $ aesonDrop (strLength "myTaskTo") snakeCase
 
 -- |
--- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-tasks>
+-- see: <http://developer.chatwork.com/ja/endpoint_my.html#GET-my-tasks>
 data GetMyTasksParams = GetMyTasksParams
                    { getMyTasksAssignedByAccountId :: Maybe AccountId
                    , getMyTasksStatus              :: Maybe TaskStatus
