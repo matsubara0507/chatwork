@@ -13,7 +13,7 @@ ghc-options: -Wall
 
 dependencies:
   - base >=4.7 && <5
-  - aeson >=1.0.2.1 && <1.1
+  - aeson >=1.0.2.1 && <1.2
   - aeson-casing >=0.1.0.5 && <0.2
   - bytestring >=0.10.8.1 && <0.11
   - connection >=0.2.7 && <0.3
@@ -56,6 +56,6 @@ tests:
       - test
       - src
     dependencies:
-      - servant-server >=0.9.1.1 && <0.9.2
+      - servant-server >=0.9.1.1 && <0.12
       - warp >=3.2.11 && <3.3
       - hspec >=2.4.1 && <2.5
