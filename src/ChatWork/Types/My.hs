@@ -4,9 +4,10 @@ module ChatWork.Types.My
     ( MyStatus(..)
     , MyTasks
     , MyTask(..)
+    , GetMyTasksParams(..)
     ) where
 
-import           ChatWork.Types.Base (Account, Room)
+import           ChatWork.Types.Base (Account, AccountId, Room, TaskStatus)
 import           ChatWork.Utils      (strLength)
 import           Data.Aeson          (FromJSON (..), ToJSON (..),
                                       genericParseJSON, genericToJSON)
@@ -44,3 +45,10 @@ instance ToJSON MyTask where
   toJSON = genericToJSON $ aesonDrop (strLength "myTaskTo") snakeCase
 instance FromJSON MyTask where
   parseJSON = genericParseJSON $ aesonDrop (strLength "myTaskTo") snakeCase
+
+-- |
+-- see: <http://developer.chatwork.com/ja/endpoint_rooms.html#GET-rooms-room_id-tasks>
+data GetMyTasksParams = GetMyTasksParams
+                   { getMyTasksAssignedByAccountId :: Maybe AccountId
+                   , getMyTasksStatus              :: Maybe TaskStatus
+                   } deriving (Show)

@@ -3,10 +3,12 @@
 module ChatWork.Test.Values.My
     ( myStatus
     , myTasks
+    , getMyTasksParams
     ) where
 
-import           ChatWork.Types (Account (..), MyStatus (..), MyTask (..),
-                                 MyTasks, Room (..))
+import           ChatWork.Types (Account (..), GetMyTasksParams (..),
+                                 MyStatus (..), MyTask (..), MyTasks, Room (..),
+                                 TaskStatus (..))
 
 myStatus :: MyStatus
 myStatus = MyStatus 2 1 3 12 1 8
@@ -20,3 +22,6 @@ myTasks = [ MyTask 3
                    1384354799
                    "open"
           ]
+
+getMyTasksParams :: GetMyTasksParams
+getMyTasksParams = GetMyTasksParams (Just 78) (Just Done)

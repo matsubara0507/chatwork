@@ -10,12 +10,17 @@ module ChatWork.Endpoints.My
 
 import           ChatWork.Client   (Client (..))
 import           ChatWork.Internal (req)
-import           ChatWork.Types    (ChatWorkResponse, MyStatus, MyTasks)
+import           ChatWork.Types    (ChatWorkResponse, GetMyTasksParams (..),
+                                    MyStatus, MyTasks, ToReqParam (..))
+import           Data.Monoid       ((<>))
 import           Network.HTTP.Req  (GET (..), MonadHttp, NoReqBody (..),
                                     jsonResponse, (/:))
 
 getMyStatus :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse MyStatus)
 getMyStatus c = req GET (baseUrl c /: "my" /: "status") NoReqBody jsonResponse $ mkHeader c
 
-getMyTasks :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse MyTasks)
-getMyTasks c = req GET (baseUrl c /: "my" /: "tasks") NoReqBody jsonResponse $ mkHeader c
+getMyTasks :: (MonadHttp m, Client c) => c -> GetMyTasksParams -> m (ChatWorkResponse MyTasks)
+getMyTasks c params = req GET (baseUrl c /: "my" /: "tasks") NoReqBody jsonResponse $ mkHeader c <> params'
+  where
+    params' = toReqParam "assigned_by_account_id" (getMyTasksAssignedByAccountId params)
+           <> toReqParam "status" (getMyTasksStatus params)

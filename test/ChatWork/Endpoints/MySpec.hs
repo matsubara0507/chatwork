@@ -7,7 +7,7 @@ import           ChatWork.Endpoints.My    (getMyStatus, getMyTasks)
 import           ChatWork.MonadHttpIO     ()
 import           ChatWork.Test.Client     (TestClient (..))
 import           ChatWork.Test.MockServer (runMockServer)
-import           ChatWork.Test.Values.My  (myStatus, myTasks)
+import           ChatWork.Test.Values.My  (getMyTasksParams, myStatus, myTasks)
 import           Network.HTTP.Req         (responseBody)
 import           Test.Hspec               (Spec, around_, context, describe,
                                            hspec, it, shouldReturn)
@@ -24,4 +24,4 @@ spec = around_ runMockServer $ do
   describe "getMyTasks: endpoint GET /my/tasks" $ do
     context "correct responce" $ do
       it "should return Right myTasks response body" $ do
-        (responseBody <$> getMyTasks TestClient) `shouldReturn` Right myTasks
+        (responseBody <$> getMyTasks TestClient getMyTasksParams) `shouldReturn` Right myTasks
