@@ -1,3 +1,7 @@
+### 0.1.1.1
+
+- Fix PVP for `aeson-1.2.1`
+
 ## 0.1.1.0
 
 - Added Client Type Class
