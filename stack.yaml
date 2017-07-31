@@ -1,4 +1,4 @@
-resolver: lts-8.21
+resolver: lts-9.0
 
 packages:
 - '.'
@@ -6,8 +6,13 @@ packages:
     git: https://github.com/mrkkrp/req.git
     commit: 030d75ac3df2e80db15aa5a481b65ddaa41dd8f6
   extra-dep: true
+- location:
+    git: https://github.com/bos/aeson
+    commit: 6b27594cc3c2d61959c20d317dce5531a2f1d7f1
+  extra-dep: true
 extra-deps:
 - 'req-0.3.0'
+- 'aeson-1.2.1'
 
 flags: {}
 
