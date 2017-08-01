@@ -1,13 +1,15 @@
-resolver: lts-8.21
+resolver: nightly-2017-07-31
 
 packages:
 - '.'
 - location:
-    git: https://github.com/mrkkrp/req.git
-    commit: 030d75ac3df2e80db15aa5a481b65ddaa41dd8f6
+    git: https://github.com/matsubara0507/http-media.git
+    commit: 9fb7378bfd186c6f650b8aa9dc66730c063531c0
   extra-dep: true
 extra-deps:
-- 'req-0.3.0'
+- http-media-0.7.1
+- servant-0.11
+- servant-server-0.11
 
 flags: {}
 
