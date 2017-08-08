@@ -2,6 +2,8 @@
 
 [![Hackage](https://img.shields.io/hackage/v/chatwork.svg?style=flat)](https://hackage.haskell.org/package/chatwork)
 [![Build Status](https://travis-ci.org/matsubara0507/chatwork.svg?branch=master)](https://travis-ci.org/matsubara0507/chatwork)
+[![Stackage LTS](http://stackage.org/package/chatwork/badge/lts)](http://stackage.org/lts/package/chatwork)
+[![Stackage Nightly](http://stackage.org/package/chatwork/badge/nightly)](http://stackage.org/nightly/package/chatwork)
 
 The ChatWork API for Haskell.
 
