@@ -35,7 +35,7 @@ import           Network.HTTP.Req                (JsonResponse, QueryParam,
 type ChatWorkResponse a = JsonResponse (Either ChatWorkErrors a)
 
 instance {-# OVERLAPS #-} (FromJSON a) => FromJSON (Either ChatWorkErrors a) where
-  parseJSON v = ((Left <$> parseJSON v) <|> (Right <$> parseJSON v))
+  parseJSON v = (Left <$> parseJSON v) <|> (Right <$> parseJSON v)
 
 -- |
 -- Helper Type Class of 'QueryParam'
