@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -fno-warn-orphans  #-}
+
 -- |
 -- This module is that define MonadHttp type class instance of IO.
 -- if you want other definition, don't import this module.
