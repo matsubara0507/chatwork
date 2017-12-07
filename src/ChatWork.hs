@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -fno-warn-dodgy-exports #-}
+
 -- |
 -- This module is re-export all endpoint functions and types from this package.
 --

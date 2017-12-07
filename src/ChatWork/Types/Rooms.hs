@@ -242,7 +242,7 @@ instance Show DeleteRoomActionType where
   show DeleteRoom = "delete"
 
 instance FromForm DeleteRoomActionType where
-  fromForm f = parseUnique "action_type" f
+  fromForm = parseUnique "action_type" 
 
 instance ToHttpApiData DeleteRoomActionType where
   toUrlPiece = pack . show

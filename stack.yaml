@@ -1,13 +1,11 @@
-resolver: lts-8.21
-
+resolver: nightly-2017-11-10
 packages:
 - '.'
-- location:
-    git: https://github.com/mrkkrp/req.git
-    commit: 030d75ac3df2e80db15aa5a481b65ddaa41dd8f6
-  extra-dep: true
+
 extra-deps:
-- 'req-0.3.0'
+- 'servant-0.12'
+- 'servant-server-0.12'
+- 'req-1.0.0'
 
 flags: {}
 
