@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TypeSynonymInstances #-}
--- {-# LANGUAGE OverlappingInstances #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ChatWork.Types (
     -- * type synonym of Response Json
