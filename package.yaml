@@ -37,7 +37,6 @@ library:
     - ChatWork.Endpoints.Contacts
     - ChatWork.Endpoints.Rooms
     - ChatWork.Endpoints.IncomingRequests
-    - ChatWork.MonadHttpIO
     - ChatWork.Types
     - ChatWork.Types.Base
     - ChatWork.Types.Error

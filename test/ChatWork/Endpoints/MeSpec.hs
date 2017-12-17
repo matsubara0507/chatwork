@@ -3,14 +3,14 @@ module ChatWork.Endpoints.MeSpec
     , spec
     ) where
 
-import           ChatWork.Endpoints.Me    (getMe)
-import           ChatWork.MonadHttpIO     ()
-import           ChatWork.Test.Client     (TestClient (..))
-import           ChatWork.Test.MockServer (runMockServer)
-import           ChatWork.Test.Values.Me  (me)
-import           Network.HTTP.Req         (responseBody)
-import           Test.Hspec               (Spec, around_, context, describe,
-                                           hspec, it, shouldReturn)
+import           ChatWork.Endpoints.Me     (getMe)
+import           ChatWork.Test.Client      (TestClient (..))
+import           ChatWork.Test.MockServer  (runMockServer)
+import           ChatWork.Test.MonadHttpIO ()
+import           ChatWork.Test.Values.Me   (me)
+import           Network.HTTP.Req          (responseBody)
+import           Test.Hspec                (Spec, around_, context, describe,
+                                            hspec, it, shouldReturn)
 
 main :: IO ()
 main = hspec spec
