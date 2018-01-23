@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 55ff5b1f9b4539d00bd7e69b29c6ea362e521606521fbb1d9dad0eb689ee2228
+-- hash: 1e41e824f8ccaa2d6ce537ff7446fecf852cb27b1f58e368ba410fbda76cefad
 
 name:           chatwork
 version:        0.1.2.0
@@ -13,7 +13,7 @@ homepage:       https://github.com/matsubara0507/chatwork#readme
 bug-reports:    https://github.com/matsubara0507/chatwork/issues
 author:         MATSUBARA Nobutada
 maintainer:     MATSUBARA Nobutada
-copyright:      2017 MATSUBARA Nobutada
+copyright:      2017-2018 MATSUBARA Nobutada
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
