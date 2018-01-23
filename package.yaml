@@ -21,7 +21,7 @@ dependencies:
   - http-api-data >=0.3.5 && <0.3.8
   - http-client >=0.5.5.0 && <0.6
   - http-client-tls >=0.3.3.1 && <0.4
-  - http-types >=0.9.1 && <0.11
+  - http-types >=0.9.1 && <0.12
   - req >=1.0.0 && <1.1.0
   - text >=1.2.2.1 && <1.3
 
