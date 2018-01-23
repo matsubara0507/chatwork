@@ -1,3 +1,9 @@
+### 0.1.3.0
+- Fix PVP for `http-types-0.11`
+- Refactor for `req`
+    - Remove `MonadHttp` instance for `IO`.
+    - Add new `HttpResponse` instance for JSON for replacing empty string to empty list.
+
 ## 0.1.2.0
 
 - Fix PVP for `req-1.0.0`
