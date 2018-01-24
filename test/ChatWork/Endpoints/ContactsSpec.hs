@@ -4,9 +4,9 @@ module ChatWork.Endpoints.ContactsSpec
     ) where
 
 import           ChatWork.Endpoints.Contacts   (getContacts)
-import           ChatWork.MonadHttpIO          ()
 import           ChatWork.Test.Client          (TestClient (..))
 import           ChatWork.Test.MockServer      (runMockServer)
+import           ChatWork.Test.MonadHttpIO     ()
 import           ChatWork.Test.Values.Contacts (contacts)
 import           Network.HTTP.Req              (responseBody)
 import           Test.Hspec                    (Spec, around_, context,

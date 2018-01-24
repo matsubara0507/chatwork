@@ -7,11 +7,10 @@ module ChatWork.Endpoints.Me
     ( getMe
     ) where
 
-import           ChatWork.Client   (Client (..))
-import           ChatWork.Internal (req)
-import           ChatWork.Types    (ChatWorkResponse, Me)
-import           Network.HTTP.Req  (GET (..), MonadHttp, NoReqBody (..),
-                                    jsonResponse, (/:))
+import           ChatWork.Client  (Client (..))
+import           ChatWork.Types   (ChatWorkResponse, Me, jsonResponse')
+import           Network.HTTP.Req (GET (..), MonadHttp, NoReqBody (..), req,
+                                   (/:))
 
 getMe :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse Me)
-getMe c = req GET (baseUrl c /: "me") NoReqBody jsonResponse $ mkHeader c
+getMe c = req GET (baseUrl c /: "me") NoReqBody jsonResponse' $ mkHeader c

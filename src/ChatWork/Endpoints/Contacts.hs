@@ -7,11 +7,10 @@ module ChatWork.Endpoints.Contacts
     ( getContacts
     ) where
 
-import           ChatWork.Client   (Client (..))
-import           ChatWork.Internal (req)
-import           ChatWork.Types    (ChatWorkResponse, Contacts)
-import           Network.HTTP.Req  (GET (..), MonadHttp, NoReqBody (..),
-                                    jsonResponse, (/:))
+import           ChatWork.Client  (Client (..))
+import           ChatWork.Types   (ChatWorkResponse, Contacts, jsonResponse')
+import           Network.HTTP.Req (GET (..), MonadHttp, NoReqBody (..), req,
+                                   (/:))
 
 getContacts :: (MonadHttp m, Client c) => c -> m (ChatWorkResponse Contacts)
-getContacts c = req GET (baseUrl c /: "contacts") NoReqBody jsonResponse $ mkHeader c
+getContacts c = req GET (baseUrl c /: "contacts") NoReqBody jsonResponse' $ mkHeader c

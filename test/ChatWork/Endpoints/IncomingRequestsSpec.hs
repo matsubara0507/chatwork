@@ -6,9 +6,9 @@ module ChatWork.Endpoints.IncomingRequestsSpec
 import           ChatWork.Endpoints.IncomingRequests   (acceptIncomingRequest,
                                                         getIncomingRequests,
                                                         rejectIncomingRequest)
-import           ChatWork.MonadHttpIO                  ()
 import           ChatWork.Test.Client                  (TestClient (..))
 import           ChatWork.Test.MockServer              (runMockServer)
+import           ChatWork.Test.MonadHttpIO             ()
 import           ChatWork.Test.Values.IncomingRequests (acceptedIncomingRequest,
                                                         incomingRequests)
 import           Network.HTTP.Req                      (responseBody)
