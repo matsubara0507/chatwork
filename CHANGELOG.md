@@ -1,8 +1,10 @@
+### 0.1.3.1 
+
 - Fix: test on windows, not work `finally`
 - Relax PVP for `http-types-0.12`
 - Relax PVP for `servant-server-0.13`
 
-### 0.1.3.0
+## 0.1.3.0
 - Fix PVP for `http-types-0.11`
 - Refactor for `req`
     - Remove `MonadHttp` instance for `IO`.
