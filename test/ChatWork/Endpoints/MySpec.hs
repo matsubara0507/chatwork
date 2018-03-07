@@ -1,22 +1,17 @@
 module ChatWork.Endpoints.MySpec
-    ( main
-    , spec
+    ( spec
     ) where
 
 import           ChatWork.Endpoints.My     (getMyStatus, getMyTasks)
 import           ChatWork.Test.Client      (TestClient (..))
-import           ChatWork.Test.MockServer  (runMockServer)
 import           ChatWork.Test.MonadHttpIO ()
 import           ChatWork.Test.Values.My   (getMyTasksParams, myStatus, myTasks)
 import           Network.HTTP.Req          (responseBody)
-import           Test.Hspec                (Spec, around_, context, describe,
-                                            hspec, it, shouldReturn)
-
-main :: IO ()
-main = hspec spec
+import           Test.Hspec                (Spec, context, describe, it,
+                                            shouldReturn)
 
 spec :: Spec
-spec = around_ runMockServer $ do
+spec = do
   describe "getMyStatus: endpoint GET /my/status" $ do
     context "correct responce" $ do
       it "should return Right myStatus response body" $ do

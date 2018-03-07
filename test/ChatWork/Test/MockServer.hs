@@ -14,7 +14,6 @@ import           ChatWork.Test.Types
 import           ChatWork.Test.Values
 import           ChatWork.Types
 import           Control.Concurrent
-import           Control.Exception
 import           Data.Aeson
 import qualified Data.ByteString.Lazy     as LBS (length)
 import           Data.Int                 (Int64)
@@ -118,5 +117,5 @@ mockServer = run 8000 (serve api server)
 
 runMockServer :: IO () -> IO ()
 runMockServer action = do
-  tid <- forkIO mockServer
-  action `finally` killThread tid
+  _ <- forkIO mockServer
+  action
