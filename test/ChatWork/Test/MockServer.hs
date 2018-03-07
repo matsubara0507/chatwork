@@ -14,7 +14,6 @@ import           ChatWork.Test.Types
 import           ChatWork.Test.Values
 import           ChatWork.Types
 import           Control.Concurrent
-import           Control.Exception
 import           Data.Aeson
 import qualified Data.ByteString.Lazy     as LBS (length)
 import           Data.Int                 (Int64)
