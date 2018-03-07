@@ -1,3 +1,5 @@
+- Fix: test on windows, not work `finally`
+
 ### 0.1.3.0
 - Fix PVP for `http-types-0.11`
 - Refactor for `req`

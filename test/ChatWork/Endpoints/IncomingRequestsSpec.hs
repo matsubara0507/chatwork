@@ -1,26 +1,20 @@
 module ChatWork.Endpoints.IncomingRequestsSpec
-    ( main
-    , spec
+    ( spec
     ) where
 
 import           ChatWork.Endpoints.IncomingRequests   (acceptIncomingRequest,
                                                         getIncomingRequests,
                                                         rejectIncomingRequest)
 import           ChatWork.Test.Client                  (TestClient (..))
-import           ChatWork.Test.MockServer              (runMockServer)
 import           ChatWork.Test.MonadHttpIO             ()
 import           ChatWork.Test.Values.IncomingRequests (acceptedIncomingRequest,
                                                         incomingRequests)
 import           Network.HTTP.Req                      (responseBody)
-import           Test.Hspec                            (Spec, around_, context,
-                                                        describe, hspec, it,
-                                                        shouldReturn)
-
-main :: IO ()
-main = hspec spec
+import           Test.Hspec                            (Spec, context, describe,
+                                                        it, shouldReturn)
 
 spec :: Spec
-spec = around_ runMockServer $ do
+spec = do
   describe "getIncomingRequests: endpoint GET /incoming_requests" $ do
     context"correct responce" $ do
       it "should return Right myStatus response body" $ do
