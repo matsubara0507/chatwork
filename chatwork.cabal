@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 421a3807b8f34719aa0095c9b4046dc4aec9ff8d6bafd0b51893c15f35bd1af4
+-- hash: 70e44dfa6f3838efc9832c330484a5a4501cdf55a9500639d5e01c6cfe05651f
 
 name:           chatwork
 version:        0.1.3.0
@@ -44,19 +44,19 @@ library
       ChatWork
       ChatWork.Client
       ChatWork.Endpoints
+      ChatWork.Endpoints.Contacts
+      ChatWork.Endpoints.IncomingRequests
       ChatWork.Endpoints.Me
       ChatWork.Endpoints.My
-      ChatWork.Endpoints.Contacts
       ChatWork.Endpoints.Rooms
-      ChatWork.Endpoints.IncomingRequests
       ChatWork.Types
       ChatWork.Types.Base
+      ChatWork.Types.Contacts
       ChatWork.Types.Error
+      ChatWork.Types.IncomingRequests
       ChatWork.Types.Me
       ChatWork.Types.My
-      ChatWork.Types.Contacts
       ChatWork.Types.Rooms
-      ChatWork.Types.IncomingRequests
       ChatWork.Utils
   other-modules:
       Paths_chatwork

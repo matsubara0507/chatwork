@@ -27,24 +27,6 @@ dependencies:
 
 library:
   source-dirs: src
-  exposed-modules:
-    - ChatWork
-    - ChatWork.Client
-    - ChatWork.Endpoints
-    - ChatWork.Endpoints.Me
-    - ChatWork.Endpoints.My
-    - ChatWork.Endpoints.Contacts
-    - ChatWork.Endpoints.Rooms
-    - ChatWork.Endpoints.IncomingRequests
-    - ChatWork.Types
-    - ChatWork.Types.Base
-    - ChatWork.Types.Error
-    - ChatWork.Types.Me
-    - ChatWork.Types.My
-    - ChatWork.Types.Contacts
-    - ChatWork.Types.Rooms
-    - ChatWork.Types.IncomingRequests
-    - ChatWork.Utils
 
 executables:
   sample-exe:
