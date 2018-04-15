@@ -2,10 +2,10 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a2cdc8b35ae0645ad0222f68df4333edc63a314080be399ffb633bfa6c36cbf4
+-- hash: 8b06a918c9d2665e86057ef770fd95edae20d348e291f1b2368c16abc17a30d8
 
 name:           chatwork
-version:        0.1.3.1
+version:        0.1.3.2
 synopsis:       The ChatWork API in Haskell
 description:    See README at <https://github.com/matsubara0507/chatwork#readme>
 category:       Web
@@ -28,13 +28,13 @@ library
       src
   ghc-options: -Wall
   build-depends:
-      aeson >=1.0.2.1 && <1.3
+      aeson >=1.0.2.1 && <1.4
     , aeson-casing >=0.1.0.5 && <0.2
     , base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
     , connection >=0.2.7 && <0.3
     , data-default-class >=0.1.2.0 && <0.2
-    , http-api-data >=0.3.5 && <0.3.8
+    , http-api-data >=0.3.5 && <0.3.9
     , http-client >=0.5.5.0 && <0.6
     , http-client-tls >=0.3.3.1 && <0.4
     , http-types >=0.9.1 && <0.13
@@ -68,14 +68,14 @@ executable sample-exe
       sample
   ghc-options: -Wall
   build-depends:
-      aeson >=1.0.2.1 && <1.3
+      aeson >=1.0.2.1 && <1.4
     , aeson-casing >=0.1.0.5 && <0.2
     , base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
     , chatwork
     , connection >=0.2.7 && <0.3
     , data-default-class >=0.1.2.0 && <0.2
-    , http-api-data >=0.3.5 && <0.3.8
+    , http-api-data >=0.3.5 && <0.3.9
     , http-client >=0.5.5.0 && <0.6
     , http-client-tls >=0.3.3.1 && <0.4
     , http-types >=0.9.1 && <0.13
@@ -93,14 +93,14 @@ test-suite spec
       src
   ghc-options: -Wall
   build-depends:
-      aeson >=1.0.2.1 && <1.3
+      aeson >=1.0.2.1 && <1.4
     , aeson-casing >=0.1.0.5 && <0.2
     , base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
     , connection >=0.2.7 && <0.3
     , data-default-class >=0.1.2.0 && <0.2
-    , hspec >=2.4.1 && <2.5
-    , http-api-data >=0.3.5 && <0.3.8
+    , hspec >=2.4.1 && <2.6
+    , http-api-data >=0.3.5 && <0.3.9
     , http-client >=0.5.5.0 && <0.6
     , http-client-tls >=0.3.3.1 && <0.4
     , http-types >=0.9.1 && <0.13
