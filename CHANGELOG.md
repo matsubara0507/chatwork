@@ -1,3 +1,6 @@
+### 0.1.3.3
+- Relax PVP for `req-1.1`
+
 ### 0.1.3.2
 - Relax PVP for `http-api-data-0.3.8`
 - Relax PVP for `hspec-2.5`
