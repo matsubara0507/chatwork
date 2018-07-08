@@ -1,3 +1,7 @@
+### 0.1.3.4
+- Relax PVP for `aeson-1.4`
+- Relax PVP for `servant-server-0.14`
+
 ### 0.1.3.3
 - Relax PVP for `req-1.1`
 
